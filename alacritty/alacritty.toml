@@ -1,0 +1,13 @@
+import = [
+  "~/.config/alacritty/catppuccin/catppuccin-macchiato.toml"
+]
+
+[window]
+padding = { x = 0, y = 8}
+
+[font]
+normal = { family = "OperatorMonoSSm Nerd Font", style = "Light" }
+bold = { family = "OperatorMonoSSm Nerd Font", style = "Medium" }
+italic = { family = "OperatorMonoSSm Nerd Font", style = "Light Italic" }
+bold_italic = { family = "OperatorMonoSSm Nerd Font", style = "Medium Italic" }
+size = 15.0
