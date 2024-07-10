@@ -1,0 +1,36 @@
+tap "homebrew/command-not-found"
+tap "beeftornado/rmtree"
+
+brew "coreutils"
+brew "ripgrep"
+brew "imagemagick"
+brew "mas"
+brew "zsh"
+brew "tmux"
+
+brew "asdf"
+brew "git"
+brew "git-lfs"
+brew "neovim"
+
+cask "google-chrome"
+
+cask "kitty"
+cask "docker"
+cask "postman"
+
+cask "visual-studio-code"
+
+cask "obsidian"
+
+cask "telegram"
+
+cask "spotify"
+
+cask "mullvadvpn"
+cask "the-unarchiver"
+cask "transmission"
+
+mas "Numbers", id: 409203825
+mas "Keynote", id: 409183694
+mas "Pages", id: 409201541
