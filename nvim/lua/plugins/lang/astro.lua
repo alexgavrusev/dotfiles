@@ -20,7 +20,6 @@ return {
 		opts = function(_, opts)
 			require("utils.extend-ensure-installed")(opts, {
 				"prettierd",
-				"eslint_d",
 			})
 		end
 	},
@@ -28,14 +27,6 @@ return {
 		"stevearc/conform.nvim",
 		opts = function(_, opts)
 			require("utils.conform").configure_prettier(opts, {
-				"astro"
-			})
-		end,
-	},
-	{
-		"mfussenegger/nvim-lint",
-		opts = function(_, opts)
-			require("utils.nvim-lint").configure_eslint(opts, {
 				"astro"
 			})
 		end,

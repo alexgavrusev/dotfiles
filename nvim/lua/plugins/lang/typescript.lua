@@ -22,7 +22,6 @@ return {
 		opts = function(_, opts)
 			require("utils.extend-ensure-installed")(opts, {
 				"prettierd",
-				"eslint_d",
 			})
 		end
 	},
@@ -37,15 +36,4 @@ return {
 			})
 		end,
 	},
-	{
-		"mfussenegger/nvim-lint",
-		opts = function(_, opts)
-			require("utils.nvim-lint").configure_eslint(opts, {
-				"javascript",
-				"javascriptreact",
-				"typescript",
-				"typescriptreact",
-			})
-		end,
-	}
 }
