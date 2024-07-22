@@ -14,9 +14,12 @@ return {
 			},
 			cmp = true,
 			lsp_trouble = true,
+			gitsigns = true,
 		},
-		custom_highlights = function()
+		custom_highlights = function(colors)
 			return {
+				-- yellow too similar to green
+				GitSignsChange = { fg = colors.peach },
 				-- https://github.com/LunarVim/LunarVim/discussions/4418
 				NormalFloat = { fg = "none", bg = "none" },
 				FloatBorder = { fg = "none", bg = "none" },

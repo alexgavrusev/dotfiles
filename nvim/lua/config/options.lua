@@ -14,7 +14,8 @@ vim.opt.splitright = true
 
 vim.opt.scrolloff = 8
 
-vim.opt.signcolumn = "yes"
+-- 1 for gitsigns, 1 for LSP diagnostics
+vim.opt.signcolumn = "yes:2"
 
 -- sync the unnamed (default) register with the system clipboard
 vim.opt.clipboard = "unnamedplus"
