@@ -13,8 +13,8 @@ return {
 		version = "*", -- recommended, use latest release instead of latest commit
 		lazy = true,
 		event = {
-			"BufReadPre " .. vim.fn.expand "~" .. "/Second\\ Brain/**.md",
-			"BufNewFile " .. vim.fn.expand "~" .. "/Second\\ Brain/**.md",
+			"BufReadPre " .. vim.fn.expand "~" .. "/second-brain/**.md",
+			"BufNewFile " .. vim.fn.expand "~" .. "/second-brain/**.md",
 		},
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -23,7 +23,7 @@ return {
 			workspaces = {
 				{
 					name = "Second Brain",
-					path = "~/Second Brain",
+					path = "~/second-brain",
 				},
 			},
 			ui = {
