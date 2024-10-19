@@ -11,6 +11,7 @@ return {
 		local telescope = require("telescope")
 		local telescopeConfig = require("telescope.config")
 
+
 		-- Clone the default Telescope configuration
 		local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
 
@@ -19,7 +20,22 @@ return {
 		table.insert(vimgrep_arguments, "--glob")
 		table.insert(vimgrep_arguments, "!**/.git/*")
 
+		local open_with_trouble = function(prompt_bufnr)
+			local opts = {
+				focus = true
+			}
+
+			require("trouble.sources.telescope").open(prompt_bufnr, opts)
+		end
+
 		local opts = {
+			defaults = {
+				mappings = {
+					i = { ["<c-t>"] = open_with_trouble },
+					n = { ["<c-t>"] = open_with_trouble },
+				},
+			},
+
 			pickers = {
 				find_files = {
 					find_command = { "rg", "--files", "--color", "never", "--hidden", "--glob", "!**/.git/*" },

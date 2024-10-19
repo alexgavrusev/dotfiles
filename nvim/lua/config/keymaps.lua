@@ -46,6 +46,11 @@ M.trouble = {
 		"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
 		desc = "Buffer Diagnostics (Trouble)",
 	},
+	{
+		"<leader>xt",
+		"<cmd>Trouble telescope toggle focus=true<cr>",
+		desc = "Telescope search results (Trouble)",
+	},
 }
 
 M.conform = {
