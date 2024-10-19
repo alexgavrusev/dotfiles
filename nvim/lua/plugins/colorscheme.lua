@@ -8,6 +8,7 @@ return {
 				enabled = true
 			},
 			treesitter = true,
+			treesitter_context = true,
 			mason = true,
 			native_lsp = {
 				enabled = true
@@ -16,13 +17,19 @@ return {
 			lsp_trouble = true,
 			gitsigns = true,
 		},
-		custom_highlights = function(colors)
+		custom_highlights = function(C)
 			return {
 				-- yellow too similar to green
-				GitSignsChange = { fg = colors.peach },
+				GitSignsChange = { fg = C.peach },
 				-- https://github.com/LunarVim/LunarVim/discussions/4418
 				NormalFloat = { fg = "none", bg = "none" },
 				FloatBorder = { fg = "none", bg = "none" },
+
+				TreesitterContext = { bg = C.crust },
+				-- style is underline by default
+				TreesitterContextBottom = { style = {} },
+				TreesitterContextLineNumber = { bg = C.crust },
+				TreesitterContextSeparator = { bg = C.crust },
 			}
 		end,
 	},

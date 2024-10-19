@@ -13,4 +13,14 @@ return {
 		keys = require("config.keymaps").trouble,
 		opts = {},
 	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+		event = "VeryLazy",
+		opts = {
+			separator = ' '
+		}
+	}
 }
