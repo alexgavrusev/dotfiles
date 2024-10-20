@@ -20,19 +20,23 @@ return {
 		table.insert(vimgrep_arguments, "--glob")
 		table.insert(vimgrep_arguments, "!**/.git/*")
 
-		local open_with_trouble = function(prompt_bufnr)
-			local opts = {
-				focus = true
-			}
+		local transform_mod = require('telescope.actions.mt').transform_mod
 
-			require("trouble.sources.telescope").open(prompt_bufnr, opts)
-		end
+		local custom_actions = transform_mod({
+			open_with_trouble = function(prompt_bufnr)
+				local opts = {
+					focus = true
+				}
+
+				require("trouble.sources.telescope").open(prompt_bufnr, opts)
+			end
+		})
 
 		local opts = {
 			defaults = {
 				mappings = {
-					i = { ["<c-t>"] = open_with_trouble },
-					n = { ["<c-t>"] = open_with_trouble },
+					i = { ["<c-t>"] = custom_actions.open_with_trouble },
+					n = { ["<c-t>"] = custom_actions.open_with_trouble },
 				},
 			},
 
