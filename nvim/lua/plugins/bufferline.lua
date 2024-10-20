@@ -13,6 +13,7 @@ return {
 					filetype = "CHADTree",
 					text = "File Explorer",
 					text_align = "left",
+					padding = 1,
 				}
 			},
 		},
