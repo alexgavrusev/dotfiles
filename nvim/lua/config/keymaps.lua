@@ -64,9 +64,11 @@ M.conform = {
 }
 
 M.telescope = {
-	{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find file" },
-	{ "<leader>fg", "<cmd>Telescope live_grep<cr>",  desc = "Live grep" },
-	{ "<leader>fk", "<cmd>Telescope keymaps<cr>",    desc = "Keymaps" },
+	{ "<leader>ff", "<cmd>Telescope find_files<cr>",                    desc = "Find file" },
+	{ "<leader>fg", "<cmd>Telescope live_grep<cr>",                     desc = "Live grep" },
+	{ "<leader>fk", "<cmd>Telescope keymaps<cr>",                       desc = "Keymaps" },
+	{ "<leader>fw", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Dynamic workspace symbols" },
+	{ "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>",          desc = "Document symbols" },
 }
 
 M.lsp_buffer = function(buffer)
