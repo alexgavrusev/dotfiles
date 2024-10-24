@@ -69,6 +69,11 @@ M.telescope = {
 	{ "<leader>fk", "<cmd>Telescope keymaps<cr>",                       desc = "Keymaps" },
 	{ "<leader>fw", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Dynamic workspace symbols" },
 	{ "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>",          desc = "Document symbols" },
+	{
+		"<leader>fs",
+		require("plugins.telescope-config.fuzzy_search").current_file_fuzzy,
+		desc = "Current file fuzzy search"
+	},
 }
 
 M.lsp_buffer = function(buffer)

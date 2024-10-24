@@ -29,6 +29,10 @@ return {
 				}
 
 				require("trouble.sources.telescope").open(prompt_bufnr, opts)
+			end,
+
+			start_insert = function()
+				vim.cmd('startinsert')
 			end
 		})
 
@@ -43,6 +47,7 @@ return {
 					},
 					n = {
 						["<c-t>"] = custom_actions.open_with_trouble,
+						["<c-f>"] = actions.to_fuzzy_refine + custom_actions.start_insert
 					},
 				},
 			},

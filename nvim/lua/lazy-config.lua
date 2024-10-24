@@ -24,6 +24,8 @@ local opts = {
 
 require("lazy").setup({
 	{ import = "plugins" },
+	{ import = "plugins.telescope-config.plugin" },
+
 	-- the globbing is not recursive, plugins in subdirs have to be included as such
 	{ import = "plugins.lang" }
 }, opts)
