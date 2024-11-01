@@ -5,7 +5,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 			"catppuccin",
 		},
-		event = { "BufReadPost", "BufNewFile" },
+		event = "LazyFile",
 		keys = require("config.keymaps").bufferline,
 		opts = {
 			offsets = {
