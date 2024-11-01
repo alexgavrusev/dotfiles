@@ -1,10 +1,7 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects"
-		},
-		event = { "BufReadPost", "BufNewFile" },
+		event = { "VeryLazy" },
 		cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 		build = ":TSUpdate",
 		opts = {
@@ -19,32 +16,44 @@ return {
 			highlight = {
 				enable = true,
 			},
-
-			textobjects = {
-				select = {
-					enable = true,
-
-					-- Automatically jump forward to textobj, similar to targets.vim
-					lookahead = true,
-
-					keymaps = {
-						["af"] = { query = "@function.outer", desc = "Select outer function" },
-						["if"] = { query = "@function.inner", desc = "Select inner function" },
-						["ac"] = { query = "@class.outer", desc = "Select outer class" },
-						["ic"] = { query = "@class.inner", desc = "Select inner class" },
-						["ab"] = { query = "@block.outer", desc = "Select outer block" },
-						["ib"] = { query = "@block.inner", desc = "Select inner block" },
-					},
-				},
-			},
-
 		},
 		config = function(_, opts)
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},
 	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+		event = { "VeryLazy" },
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				textobjects = {
+					select = {
+						enable = true,
+
+						-- Automatically jump forward to textobj, similar to targets.vim
+						lookahead = true,
+
+						keymaps = {
+							["af"] = { query = "@function.outer", desc = "Select outer function" },
+							["if"] = { query = "@function.inner", desc = "Select inner function" },
+							["ac"] = { query = "@class.outer", desc = "Select outer class" },
+							["ic"] = { query = "@class.inner", desc = "Select inner class" },
+							["ab"] = { query = "@block.outer", desc = "Select outer block" },
+							["ib"] = { query = "@block.inner", desc = "Select inner block" },
+						},
+					},
+				}
+			})
+		end
+	},
+	{
 		"windwp/nvim-ts-autotag",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
 		event = "InsertEnter",
 		opts = {},
 	},
