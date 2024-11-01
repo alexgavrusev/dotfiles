@@ -1,7 +1,7 @@
 return {
 	"stevearc/conform.nvim",
 	dependencies = {
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		"williamboman/mason.nvim",
 	},
 	event = "VeryLazy",
 	keys = require("config.keymaps").conform,

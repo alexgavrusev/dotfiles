@@ -17,7 +17,7 @@ return {
 		}
 	},
 	{
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		"williamboman/mason.nvim",
 		opts = function(_, opts)
 			require("utils.extend-ensure-installed")(opts, {
 				"prettierd",
