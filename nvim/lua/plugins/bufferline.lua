@@ -3,7 +3,7 @@ return {
 		"akinsho/bufferline.nvim",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
-			"catppuccin",
+			"catppuccin/nvim",
 		},
 		event = "LazyFile",
 		keys = require("config.keymaps").bufferline,
@@ -16,6 +16,9 @@ return {
 					padding = 1,
 				}
 			},
+			close_command = function(n)
+				require("bufdel").delete_buffer_expr(n)
+			end
 		},
 		config = function(_, opts)
 			local highlights = require("catppuccin.groups.integrations.bufferline").get()
@@ -23,6 +26,16 @@ return {
 			require("bufferline").setup({
 				options = opts,
 				highlights = highlights
+			})
+
+			-- fixes refresh delays when e.g. closing buffers
+			-- inspired by https://github.com/LazyVim/LazyVim/blob/db8895b518278331fb73bbd81975cbe5012c8f71/lua/lazyvim/plugins/ui.lua#L86
+			vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+				callback = function()
+					vim.schedule(function()
+						require("bufferline.ui").refresh()
+					end)
+				end,
 			})
 		end,
 	},
