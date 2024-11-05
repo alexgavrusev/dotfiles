@@ -15,4 +15,16 @@ M.list_extend_uniq = function(dst, src)
 	return vim.list_extend(dst, uniq_src)
 end
 
+M.dedup = function(list)
+	local ret = {}
+	local seen = {}
+	for _, v in ipairs(list) do
+		if not seen[v] then
+			table.insert(ret, v)
+			seen[v] = true
+		end
+	end
+	return ret
+end
+
 return M

@@ -1,13 +1,13 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		opts = function(_, opts)
-			require("utils.extend-ensure-installed")(opts, {
+		opts = {
+			ensure_installed = {
 				"javascript",
 				"typescript",
 				"tsx",
-			})
-		end
+			}
+		}
 	},
 	{
 		"neovim/nvim-lspconfig",
@@ -19,11 +19,11 @@ return {
 	},
 	{
 		"williamboman/mason.nvim",
-		opts = function(_, opts)
-			require("utils.extend-ensure-installed")(opts, {
-				"prettierd",
-			})
-		end
+		opts = {
+			ensure_installed = {
+				"prettierd"
+			}
+		}
 	},
 	{
 		"stevearc/conform.nvim",

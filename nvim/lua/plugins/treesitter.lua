@@ -4,6 +4,7 @@ return {
 		event = { "VeryLazy" },
 		cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 		build = ":TSUpdate",
+		opts_extend = { "ensure_installed" },
 		opts = {
 			-- NOTE: extended in lang configs
 			ensure_installed = {
@@ -18,6 +19,10 @@ return {
 			},
 		},
 		config = function(_, opts)
+			opts.ensure_installed = require("utils.lists").dedup(opts.ensure_installed)
+
+			vim.g.tso = opts
+
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},

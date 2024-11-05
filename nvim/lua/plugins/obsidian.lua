@@ -1,12 +1,12 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		opts = function(_, opts)
-			require("utils.extend-ensure-installed")(opts, {
+		opts = {
+			ensure_installed = {
 				"markdown",
 				"markdown_inline"
-			})
-		end
+			}
+		}
 	},
 	{
 		"epwalsh/obsidian.nvim",
