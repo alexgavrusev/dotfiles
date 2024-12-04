@@ -36,7 +36,6 @@ return {
 				lualine_z = lualine_z,
 			},
 			extensions = {
-				"chadtree",
 				"trouble"
 			},
 			options = {

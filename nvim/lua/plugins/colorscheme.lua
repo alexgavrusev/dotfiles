@@ -16,6 +16,9 @@ return {
 			cmp = true,
 			lsp_trouble = true,
 			gitsigns = true,
+			mini = {
+				enabled = true,
+			},
 		},
 		custom_highlights = function(C)
 			return {

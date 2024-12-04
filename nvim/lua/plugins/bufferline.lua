@@ -8,14 +8,6 @@ return {
 		event = "LazyFile",
 		keys = require("config.keymaps").bufferline,
 		opts = {
-			offsets = {
-				{
-					filetype = "CHADTree",
-					text = "File Explorer",
-					text_align = "left",
-					padding = 1,
-				}
-			},
 			close_command = function(n)
 				require("bufdel").delete_buffer_expr(n)
 			end
