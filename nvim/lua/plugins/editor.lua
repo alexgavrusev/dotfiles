@@ -21,6 +21,8 @@ return {
 		config = function(_, opts)
 			require("mini.files").setup(opts)
 
+			local mini_files_group = vim.api.nvim_create_augroup("user-mini-files", { clear = true })
+
 			vim.api.nvim_create_autocmd('User', {
 				pattern = 'MiniFilesWindowOpen',
 				callback = function(args)
@@ -30,6 +32,7 @@ return {
 					config.border = "rounded"
 					vim.api.nvim_win_set_config(win_id, config)
 				end,
+				group = mini_files_group
 			})
 
 			vim.api.nvim_create_autocmd('User', {
@@ -39,8 +42,39 @@ return {
 					win.number = true
 					win.relativenumber = true
 				end,
+				group = mini_files_group
+			})
+
+			local lsp_utils = require("utils.lsp")
+
+			vim.api.nvim_create_autocmd('User', {
+				pattern = { 'MiniFilesActionRename', 'MiniFilesActionMove' },
+				callback = function(args)
+					lsp_utils.on_rename_file(args.data.from, args.data.to)
+				end,
+				group = mini_files_group
+			})
+
+			vim.api.nvim_create_autocmd('User', {
+				pattern = 'MiniFilesActionCreate',
+				callback = function(args)
+					lsp_utils.on_create_file(args.data.to)
+				end,
+				group = mini_files_group
+			})
+
+			vim.api.nvim_create_autocmd('User', {
+				pattern = 'MiniFilesActionDelete',
+				callback = function(args)
+					lsp_utils.on_delete_file(args.data.from)
+				end,
+				group = mini_files_group
 			})
 		end
+	},
+	{
+		"nvim-lua/plenary.nvim",
+		lazy = true
 	},
 	{
 		"folke/trouble.nvim",

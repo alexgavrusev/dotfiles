@@ -13,7 +13,9 @@ return {
 			ensure_installed[#ensure_installed + 1] = server
 		end
 
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
+		local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+		local file_operation_capabilities = require("utils.lsp").default_capabilities()
+		local capabilities = vim.tbl_deep_extend("force", cmp_capabilities, file_operation_capabilities, {})
 
 		local on_attach = function(_, bufnr)
 			require("config.keymaps").lsp_buffer(bufnr)
