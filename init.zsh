@@ -4,8 +4,7 @@
 # Prelude
 #####################################
 
-export ZPREZTODIR=$HOME/Developer/prezto
-export ZDOTDIR=$HOME/.zsh
+export ZDOTDIR=$HOME/.config/zsh
 
 DOTFILES_DIR=`pwd -P`
 UNAME_MACHINE="$(/usr/bin/uname -m)"
@@ -121,19 +120,14 @@ fi
 #####################################
 
 configure_shell() {
-    git clone --recursive https://github.com/alexgavrusev/prezto.git $ZPREZTODIR
-    git -C $ZPREZTODIR remote add upstream https://github.com/sorin-ionescu/prezto.git
-
-    mkdir -p $ZDOTDIR
+    echo "Linking zsh config"
+    ln -sf $DOTFILES_DIR/zsh $ZDOTDIR
 
     # forward zshenv/etc to ZDOTDIR
-    cat <<EOF >> ~/.zshenv
-ZPREZTODIR=$ZPREZTODIR
+    cat <<EOF > ~/.zshenv
 ZDOTDIR=$ZDOTDIR
 . $ZDOTDIR/.zshenv
 EOF
-
-    $HOMEBREW_PREFIX/bin/zsh $DOTFILES_DIR/init_prezto.zsh
 
     current_shell=$(dscl . -read ~/ UserShell | sed 's/UserShell: //')
     sudo dscl . -change $HOME UserShell $current_shell "$HOMEBREW_PREFIX/bin/zsh"
