@@ -30,14 +30,14 @@ return {
 						{ name = 'buffer' },
 					}
 				),
-				-- inspired by https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings - Super-Tab like mapping and Safely select entries with <CR>
+				-- inspired by https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings - Super-Tab like mapping and Safely select entries (but including preselections) with <CR>
 				mapping = {
 					["<CR>"] = cmp.mapping({
 						i = function(fallback)
 							if not cmp.visible() then
 								fallback()
-							elseif cmp.get_active_entry() then
-								cmp.confirm({ select = false })
+							elseif cmp.get_selected_entry() then
+								cmp.confirm({ select = true })
 							else
 								cmp.abort()
 							end
