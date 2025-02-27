@@ -270,7 +270,7 @@ function setup-git() {
   alias gcob='git checkout -b'
   
   alias gc='git commit --verbose'
-  alias gca='git commit --verbose --all'
+  alias gca='git add --all && git commit --verbose'
   
   alias gf='git fetch'
   
