@@ -157,17 +157,16 @@ if ask "Configure the terminal (tmux, kitty, nvim)?" Y; then
 fi
 
 #####################################
-# Asdf, required for node
+# fnm, required for node
 #####################################
 
-ensure_asdf() {
-    if ! command -v asdf &> /dev/null; then
-       echo "asdf is not installed"
-       exit 1
+ensure_fnm() {
+    if ! command -v fnm &> /dev/null; then
+       echo "fnm not found, installing"
+       curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.local/share/fnm" --skip-shell
     fi
 
-    # add the shims to the path
-    . $(brew --prefix asdf)/libexec/asdf.sh 
+    eval "$(fnm env)"
 }
 
 #####################################
@@ -175,31 +174,21 @@ ensure_asdf() {
 #####################################
 
 install_node() {
-    asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-
-    # 2 latest LTSes
-    NODE_LTS_VERSIONS=(${(f)"$(asdf list all nodejs | grep lts- | tail -2)"})
-    # latest active
-    NODE_CURRENT_VERSION="$(asdf list all nodejs | grep -v lts | tail -1)"
-
     # concat to a single array
-    NODE_VERSIONS=($NODE_LTS_VERSIONS $NODE_CURRENT_VERSION)
+    NODE_VERSIONS=("lts-jod" "lts-iron")
     
     NODE_GLOBAL_PACKAGES=("vercel")
 
     for version in "${NODE_VERSIONS[@]}"
     do
-        asdf install nodejs $version
+	    fnm i $version
     done
-
-    # use latest as global
-    asdf global nodejs ${NODE_VERSIONS[-1]}
 
     npm i -g ${NODE_GLOBAL_PACKAGES[@]}
 }
 
 if ask "Install node and global npm packages?" Y; then
-    ensure_asdf
+    ensure_fnm
     install_node
 fi
 

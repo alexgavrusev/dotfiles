@@ -383,48 +383,12 @@ function setup-history-substring-search() {
   HISTORY_SUBSTRING_SEARCH_PREFIXED=''
 }
 
-#
-# Nvm inspired by `nvm` omz plugin
-#
-function _nvm_setup_completion {
-  local _nvm_completion="$NVM_DIR/bash_completion"
-  
-  # Load nvm bash completion
-  if [[ -f "$_nvm_completion" ]]; then
-    # Load bashcompinit
-    autoload -U +X bashcompinit && bashcompinit
-    # Bypass compinit call in nvm bash completion script. See:
-    # https://github.com/nvm-sh/nvm/blob/4436638/bash_completion#L86-L93
-    ZSH_VERSION= source "$_nvm_completion"
-  fi
-
-  unfunction _nvm_setup_completion
-}
-
-function setup-nvm() {
-  export NVM_DIR="$HOME/.nvm"
-
-  if [[ -z "$NVM_DIR" ]] || [[ ! -f "$NVM_DIR/nvm.sh" ]]; then
+function setup-fnm() {
+  if (( ! $+commands[fnm] )); then
     return
   fi
 
-  nvm_lazy_cmd=(_omz_nvm_load nvm node npm npx pnpm pnpx yarn corepack $nvm_lazy_cmd) # default values
-  eval "
-    function $nvm_lazy_cmd {
-      for func in $nvm_lazy_cmd; do
-        if (( \$+functions[\$func] )); then
-          unfunction \$func
-        fi
-      done
-      # Load nvm if it exists in \$NVM_DIR
-      [[ -f \"\$NVM_DIR/nvm.sh\" ]] && source \"\$NVM_DIR/nvm.sh\"
-      _nvm_setup_completion
-      if [[ \"\$0\" != _omz_nvm_load ]]; then
-        \"\$0\" \"\$@\"
-      fi
-    }
-  "
-  unset nvm_lazy_cmd
+  eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 }
 
 #
@@ -487,7 +451,7 @@ setup-zsh-syntax-highlighting
 ensure-instaled-zsh-history-substring-search
 setup-history-substring-search
 
-setup-nvm
+setup-fnm
 
 setup-podman
 
