@@ -4,9 +4,6 @@ return {
 	priority = 1000,
 	opts = {
 		integrations = {
-			telescope = {
-				enabled = true
-			},
 			treesitter = true,
 			treesitter_context = true,
 			mason = true,

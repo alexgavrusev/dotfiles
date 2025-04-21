@@ -22,15 +22,6 @@ M.init = function()
 	map("v", ">", ">gv", { silent = true, desc = "Indent" })
 end
 
-M.bufferline = {
-	{ "<leader>bp", "<cmd>BufferLinePick<cr>", desc = "[B]uffer [p]ick" }
-}
-
-M.bufdel = {
-	{ "<leader>bd", "<cmd>BufDel<CR>",       desc = "[B]uffer [d]elete" },
-	{ "<leader>bD", "<cmd>BufDelOthers<CR>", desc = "[B]uffer [d]elete all other" },
-}
-
 M.mini_files = {
 	{
 		"<leader>e",
@@ -59,11 +50,6 @@ M.trouble = {
 		"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
 		desc = "Buffer Diagnostics (Trouble)",
 	},
-	{
-		"<leader>xt",
-		"<cmd>Trouble telescope toggle focus=true<cr>",
-		desc = "Telescope search results (Trouble)",
-	},
 }
 
 M.conform = {
@@ -73,19 +59,6 @@ M.conform = {
 			require("conform").format({ async = true })
 		end,
 		desc = "Format buffer",
-	},
-}
-
-M.telescope = {
-	{ "<leader>ff", "<cmd>Telescope find_files<cr>",                    desc = "Find file" },
-	{ "<leader>fg", "<cmd>Telescope live_grep<cr>",                     desc = "Live grep" },
-	{ "<leader>fk", "<cmd>Telescope keymaps<cr>",                       desc = "Keymaps" },
-	{ "<leader>fw", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Dynamic workspace symbols" },
-	{ "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>",          desc = "Document symbols" },
-	{
-		"<leader>fs",
-		require("plugins.telescope-config.fuzzy_search").current_file_fuzzy,
-		desc = "Current file fuzzy search"
 	},
 }
 
@@ -99,13 +72,29 @@ M.lsp_buffer = function(buffer)
 		vim.keymap.set(modes, lhs, rhs, vim.tbl_extend("keep", opts, { buffer = buffer }))
 	end
 
+	-- Taken from https://github.com/Jlchong3/config.nvim/blob/60c96804ab201077d02eff9455950d2532fe46c3/lua/custom/lsp.lua#L139
+	-- Also see https://github.com/echasnovski/mini.nvim/issues/978#issuecomment-2428497300
+	local on_list = function(opts)
+		local previous = vim.fn.getqflist()
+
+		vim.fn.setqflist({}, " ", opts)
+		if #opts.items == 1 then
+			vim.cmd.cfirst()
+		else
+			require("mini.extra").pickers.list({ scope = "quickfix" }, { source = { name = opts.title } })
+		end
+
+		vim.fn.setqflist(previous, " ")
+	end
+
 	map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 	map("n", "<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 	map("n", "gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-	map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", "[G]oto [D]efinition")
-	map("n", "gi", "<cmd>Telescope lsp_implementations<CR>", "[G]oto [I]mplementation")
-	map("n", "<leader>D", "<cmd>Telescope lsp_type_definitions<CR>", "Type [D]efinition")
-	map("n", "gr", "<cmd>Telescope lsp_references<CR>", "[G]oto [R]eferences")
+
+	map("n", "gd", function() vim.lsp.buf.definition({ on_list = on_list }) end, "[G]oto [D]efinition")
+	map("n", "gi", function() vim.lsp.buf.implementation({ on_list = on_list }) end, "[G]oto [I]mplementation")
+	map("n", "<leader>D", function() vim.lsp.buf.type_definition({ on_list = on_list }) end, "Type [D]efinition")
+	map("n", "gr", function() vim.lsp.buf.references(nil, { on_list = on_list }) end, "[G]oto [R]eferences")
 	map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
 	map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 end
