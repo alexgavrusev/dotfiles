@@ -4,7 +4,7 @@ return {
 	dependencies = {
 		"mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
-		"hrsh7th/cmp-nvim-lsp",
+		-- "hrsh7th/cmp-nvim-lsp",
 	},
 	config = function(_, opts)
 		local ensure_installed = {}
@@ -13,15 +13,20 @@ return {
 			ensure_installed[#ensure_installed + 1] = server
 		end
 
-		local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-		local file_operation_capabilities = require("utils.lsp").default_capabilities()
-		local capabilities = vim.tbl_deep_extend("force", cmp_capabilities, file_operation_capabilities, {})
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			{},
+			vim.lsp.protocol.make_client_capabilities(),
+			require("blink.cmp").get_lsp_capabilities(),
+			require("utils.lsp").default_capabilities(),
+			opts.capabilities or {}
+		)
 
 		local on_attach = function(_, bufnr)
 			require("config.keymaps").lsp_buffer(bufnr)
 		end
 
-		-- inspired by https://github.com/LazyVim/LazyVim/blob/bb36f71b77d8e15788a5b62c82a1c9ec7b209e49/lua/lazyvim/plugins/lsp/init.lua#L177
+		-- inspired by https://github.com/LazyVim/LazyVim/blob/ec5981dfb1222c3bf246d9bcaa713d5cfa486fbd/lua/lazyvim/plugins/lsp/init.lua#L191
 		local setup = function(server)
 			local server_opts = vim.tbl_deep_extend("force", {
 				capabilities = vim.deepcopy(capabilities),

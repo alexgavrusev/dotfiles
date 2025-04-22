@@ -10,7 +10,7 @@ return {
 			native_lsp = {
 				enabled = true
 			},
-			cmp = true,
+			blink_cmp = true,
 			lsp_trouble = true,
 			gitsigns = true,
 			mini = {
@@ -30,6 +30,14 @@ return {
 				TreesitterContextBottom = { style = {} },
 				TreesitterContextLineNumber = { bg = C.crust },
 				TreesitterContextSeparator = { bg = C.crust },
+
+				Pmenu = { fg = "none", bg = "none" },                -- Popup menu: normal item.
+				PmenuSel = { fg = C.text, bg = C.surface0, style = { "bold" } }, -- Popup menu: selected item.
+				PmenuSbar = { bg = C.surface1 },                     -- Popup menu: scrollbar.
+				PmenuThumb = { bg = C.overlay0 },                    -- Popup menu: Thumb of the scrollbar.
+
+				BlinkCmpLabelMatch = { fg = C.blue },
+				BlinkCmpMenuSelection = { fg = "none", bg = C.surface1 },
 			}
 		end,
 	},

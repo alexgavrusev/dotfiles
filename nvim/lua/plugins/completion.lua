@@ -1,85 +1,57 @@
 return {
 	{
-		"hrsh7th/nvim-cmp",
-		version = false,
+		"saghen/blink.cmp",
 		event = "InsertEnter",
 		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"garymjr/nvim-snippets",
+			"rafamadriz/friendly-snippets",
+			{
+				"echasnovski/mini.icons",
+				version = "*",
+				lazy = true
+			}
 		},
-		config = function()
-			local cmp = require("cmp")
-
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						vim.snippet.expand(args.body)
-					end,
-				},
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-				sources = cmp.config.sources(
-					{
-						{ name = 'nvim_lsp' },
-						{ name = 'snippets' },
-					},
-					{
-						{ name = 'buffer' },
-					}
-				),
-				-- inspired by https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings - Super-Tab like mapping and Safely select entries (but including preselections) with <CR>
-				mapping = {
-					["<CR>"] = cmp.mapping({
-						i = function(fallback)
-							if not cmp.visible() then
-								fallback()
-							elseif cmp.get_selected_entry() then
-								cmp.confirm({ select = true })
-							else
-								cmp.abort()
-							end
-						end,
-						s = cmp.mapping.confirm({ select = false }),
-					}),
-
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-						elseif vim.snippet.active({ direction = 1 }) then
-							vim.schedule(function()
-								vim.snippet.jump(1)
-							end)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-						elseif vim.snippet.active({ direction = -1 }) then
-							vim.schedule(function()
-								vim.snippet.jump(-1)
-							end)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				}
-			})
-		end,
-	},
-	{
-		"garymjr/nvim-snippets",
-		lazy = true,
+		version = "*",
 		opts = {
-			friendly_snippets = true,
+			keymap = { preset = "default" },
+			completion = {
+				accept = {
+					auto_brackets = {
+						enabled = false
+					},
+				},
+				list = {
+					selection = {
+						preselect = false,
+						auto_insert = false
+					}
+				},
+				menu = {
+					border = "rounded",
+					draw = {
+						components = {
+							-- https://cmp.saghen.dev/recipes.html#mini-icons
+							kind_icon = {
+								text = function(ctx)
+									local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+									return kind_icon
+								end,
+								highlight = function(ctx)
+									local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+									return hl
+								end,
+							},
+							kind = {
+								highlight = function(ctx)
+									local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+									return hl
+								end,
+							},
+						}
+					}
+				},
+				documentation = { window = { border = "rounded" } },
+			}
 		},
-		dependencies = {
-			"rafamadriz/friendly-snippets"
-		},
+		opts_extend = { "sources.default" }
 	}
 }
