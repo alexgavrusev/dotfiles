@@ -105,10 +105,6 @@ return {
 		end
 	},
 	{
-		"nvim-lua/plenary.nvim",
-		lazy = true
-	},
-	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		cmd = "Trouble",

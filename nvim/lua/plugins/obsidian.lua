@@ -1,23 +1,10 @@
 return {
 	{
-		"nvim-treesitter/nvim-treesitter",
-		opts = {
-			ensure_installed = {
-				"markdown",
-				"markdown_inline"
-			}
-		}
-	},
-	{
 		"epwalsh/obsidian.nvim",
-		version = "*", -- recommended, use latest release instead of latest commit
-		lazy = true,
+		version = "*",
 		event = {
-			"BufReadPre " .. vim.fn.expand "~" .. "/second-brain/**.md",
-			"BufNewFile " .. vim.fn.expand "~" .. "/second-brain/**.md",
-		},
-		dependencies = {
-			"nvim-lua/plenary.nvim",
+			"BufReadPre " .. vim.fn.expand("~") .. "/second-brain/**.md",
+			"BufNewFile " .. vim.fn.expand("~") .. "/second-brain/**.md",
 		},
 		opts = {
 			workspaces = {
@@ -28,7 +15,10 @@ return {
 			},
 			ui = {
 				enable = false
-			}
-		},
+			},
+			picker = {
+				name = "mini.pick",
+			},
+		}
 	}
 }
