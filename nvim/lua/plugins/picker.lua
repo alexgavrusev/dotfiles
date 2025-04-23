@@ -55,7 +55,22 @@ return {
 				"<leader>fw",
 				"<cmd>Pick lsp scope='workspace_symbol'<cr>",
 				desc = "Workspace symbols"
-			}
+			},
+			{
+				"<leader>fq",
+				"<cmd>Pick list scope='quickfix'<cr>",
+				desc = "Quickfix list"
+			},
+			{
+				"<leader>fx",
+				"<cmd>Pick diagnostic<cr>",
+				desc = "Diagnostics (all)"
+			},
+			{
+				"<leader>fX",
+				"<cmd>Pick diagnostic scope='current'<cr>",
+				desc = "Diagnostics (current buffer)"
+			},
 		},
 		config = function(_, opts)
 			local pick = require("mini.pick")

@@ -119,13 +119,6 @@ return {
 		end
 	},
 	{
-		"folke/trouble.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		cmd = "Trouble",
-		keys = require("config.keymaps").trouble,
-		opts = {},
-	},
-	{
 		"nvim-treesitter/nvim-treesitter-context",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",

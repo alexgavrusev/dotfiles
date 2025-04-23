@@ -22,19 +22,6 @@ M.init = function()
 	map("v", ">", ">gv", { silent = true, desc = "Indent" })
 end
 
-M.trouble = {
-	{
-		"<leader>xx",
-		"<cmd>Trouble diagnostics toggle<cr>",
-		desc = "Diagnostics (Trouble)",
-	},
-	{
-		"<leader>xX",
-		"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-		desc = "Buffer Diagnostics (Trouble)",
-	},
-}
-
 M.lsp_buffer = function(buffer)
 	local map = function(modes, lhs, rhs, opts)
 		if type(opts) == "string" then
