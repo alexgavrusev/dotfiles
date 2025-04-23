@@ -2,7 +2,22 @@ return {
 	{
 		"echasnovski/mini.files",
 		version = "*",
-		keys = require("config.keymaps").mini_files,
+		keys = {
+			{
+				"<leader>e",
+				function()
+					require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
+				end,
+				desc = "Open explorer in directory of current file (mini.files)"
+			},
+			{
+				"<leader>E",
+				function()
+					require("mini.files").open(vim.uv.cwd(), true)
+				end,
+				desc = "Open explorer in cwd (mini.files)",
+			},
+		},
 		opts = {
 			-- Don't use `h`/`l` for easier cursor navigation during text edit
 			mappings = {
@@ -71,7 +86,6 @@ return {
 				end,
 				group = mini_files_group
 			})
-
 
 			local map_split = function(buf_id, lhs, direction)
 				local rhs = function()

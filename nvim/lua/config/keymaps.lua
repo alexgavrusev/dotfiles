@@ -22,23 +22,6 @@ M.init = function()
 	map("v", ">", ">gv", { silent = true, desc = "Indent" })
 end
 
-M.mini_files = {
-	{
-		"<leader>e",
-		function()
-			require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
-		end,
-		desc = "Open explorer in directory of current file (mini.files)"
-	},
-	{
-		"<leader>E",
-		function()
-			require("mini.files").open(vim.uv.cwd(), true)
-		end,
-		desc = "Open explorer in cwd (mini.files)",
-	},
-}
-
 M.trouble = {
 	{
 		"<leader>xx",
