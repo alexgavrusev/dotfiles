@@ -11,8 +11,7 @@ return {
 				"vimdoc",
 			},
 
-			-- Automatically install missing parsers when entering buffer
-			auto_install = true,
+			auto_install = false,
 
 			highlight = {
 				enable = true,
@@ -20,8 +19,6 @@ return {
 		},
 		config = function(_, opts)
 			opts.ensure_installed = require("utils.lists").dedup(opts.ensure_installed)
-
-			vim.g.tso = opts
 
 			require("nvim-treesitter.configs").setup(opts)
 		end,
@@ -54,17 +51,4 @@ return {
 			})
 		end
 	},
-	{
-		"windwp/nvim-ts-autotag",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-		event = "InsertEnter",
-		opts = {},
-	},
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {}
-	}
 }
