@@ -4,7 +4,15 @@ return {
 		"williamboman/mason.nvim",
 	},
 	event = "VeryLazy",
-	keys = require("config.keymaps").conform,
+	keys = {
+		{
+			"<leader>p",
+			function()
+				require("conform").format({ async = true })
+			end,
+			desc = "Format buffer",
+		},
+	},
 	-- NOTE: extended in lang configs
 	opts = {
 		default_format_opts = {

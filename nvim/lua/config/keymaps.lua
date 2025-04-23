@@ -52,16 +52,6 @@ M.trouble = {
 	},
 }
 
-M.conform = {
-	{
-		"<leader>p",
-		function()
-			require("conform").format({ async = true })
-		end,
-		desc = "Format buffer",
-	},
-}
-
 M.lsp_buffer = function(buffer)
 	local map = function(modes, lhs, rhs, opts)
 		if type(opts) == "string" then
