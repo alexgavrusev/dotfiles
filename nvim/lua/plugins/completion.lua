@@ -4,11 +4,7 @@ return {
 		event = "InsertEnter",
 		dependencies = {
 			"rafamadriz/friendly-snippets",
-			{
-				"echasnovski/mini.icons",
-				version = "*",
-				lazy = true
-			}
+			"echasnovski/mini.icons",
 		},
 		version = "*",
 		opts = {
