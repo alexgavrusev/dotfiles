@@ -9,6 +9,7 @@ return {
 	{
 		"echasnovski/mini.extra",
 		version = "*",
+		lazy = true,
 		opts = {}
 	},
 	{
