@@ -115,6 +115,20 @@ return {
 				})
 			end
 
+
+			pick.registry.files = function()
+				local prev_ignorecase = vim.opt.ignorecase
+				local prev_smartcase = vim.opt.smartcase
+
+				vim.opt.ignorecase = true
+				vim.opt.smartcase = true
+
+				pick.builtin.files({ tool = "rg" })
+
+				vim.opt.ignorecase = prev_ignorecase
+				vim.opt.smartcase = prev_smartcase
+			end
+
 			-- approach from https://github.com/echasnovski/mini.nvim/issues/1291
 			local load_temp_rg = function(f)
 				local rg_env = "RIPGREP_CONFIG_PATH"
@@ -122,14 +136,6 @@ return {
 				vim.uv.os_setenv(rg_env, vim.fn.stdpath("config") .. "/config/.rg")
 				f()
 				vim.uv.os_setenv(rg_env, cached_rg_config)
-			end
-
-			pick.registry.files = function()
-				load_temp_rg(function()
-					pick.builtin.files(
-						{ tool = "rg" }
-					)
-				end)
 			end
 
 			pick.registry.grep_live = function()
