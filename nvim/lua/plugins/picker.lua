@@ -72,6 +72,13 @@ return {
 				desc = "Diagnostics (current buffer)"
 			},
 		},
+		opts = {
+			window = {
+				config = {
+					border = "rounded",
+				},
+			},
+		},
 		config = function(_, opts)
 			local pick = require("mini.pick")
 			pick.setup(opts)
