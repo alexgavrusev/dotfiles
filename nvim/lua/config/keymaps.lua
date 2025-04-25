@@ -13,7 +13,7 @@ M.init = function()
 
 	-- clearing highlights - https://vi.stackexchange.com/a/252
 	-- clear selection, then clear the command line, then do the actual <CR>
-	map("n", "<CR>", ":let @/=''<CR>:echo ' '<CR><CR>", { silent = true })
+	map("n", "<Esc>", ":let @/=''<CR>:echo ' '<CR><CR>", { silent = true })
 
 	-- https://www.reddit.com/r/neovim/comments/12pqkjo/comment/jgn0lct
 	map("n", "<", "<<", { silent = true, desc = "Outdent" })
