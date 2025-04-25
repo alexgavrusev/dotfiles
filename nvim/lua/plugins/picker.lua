@@ -76,6 +76,44 @@ return {
 			local pick = require("mini.pick")
 			pick.setup(opts)
 
+			-- approach from https://github.com/echasnovski/mini.nvim/issues/1291
+			local load_temp_rg = function(f)
+				local rg_env = "RIPGREP_CONFIG_PATH"
+				local cached_rg_config = vim.uv.os_getenv(rg_env) or ""
+				vim.uv.os_setenv(rg_env, vim.fn.stdpath("config") .. "/config/.rg")
+				f()
+				vim.uv.os_setenv(rg_env, cached_rg_config)
+			end
+
+			local mini_pick_group = vim.api.nvim_create_augroup("user-mini-pick", { clear = true })
+
+			local prev_ignorecase = nil
+			local prev_smartcase = nil
+
+			vim.api.nvim_create_autocmd('User', {
+				pattern = 'MiniPickStart',
+				callback = function()
+					prev_ignorecase = vim.opt.ignorecase
+					prev_smartcase = vim.opt.smartcase
+
+					vim.opt.ignorecase = true
+					vim.opt.smartcase = true
+				end,
+				group = mini_pick_group
+			})
+
+			vim.api.nvim_create_autocmd('User', {
+				pattern = 'MiniPickStop',
+				callback = function()
+					vim.opt.ignorecase = prev_ignorecase
+					vim.opt.smartcase = prev_smartcase
+
+					prev_ignorecase = nil
+					prev_smartcase = nil
+				end,
+				group = mini_pick_group
+			})
+
 			pick.registry.buffers = function()
 				-- see https://github.com/echasnovski/mini.nvim/issues/525#issuecomment-1767795741
 				local wipeout_cur = function()
@@ -115,27 +153,8 @@ return {
 				})
 			end
 
-
 			pick.registry.files = function()
-				local prev_ignorecase = vim.opt.ignorecase
-				local prev_smartcase = vim.opt.smartcase
-
-				vim.opt.ignorecase = true
-				vim.opt.smartcase = true
-
 				pick.builtin.files({ tool = "rg" })
-
-				vim.opt.ignorecase = prev_ignorecase
-				vim.opt.smartcase = prev_smartcase
-			end
-
-			-- approach from https://github.com/echasnovski/mini.nvim/issues/1291
-			local load_temp_rg = function(f)
-				local rg_env = "RIPGREP_CONFIG_PATH"
-				local cached_rg_config = vim.uv.os_getenv(rg_env) or ""
-				vim.uv.os_setenv(rg_env, vim.fn.stdpath("config") .. "/config/.rg")
-				f()
-				vim.uv.os_setenv(rg_env, cached_rg_config)
 			end
 
 			pick.registry.grep_live = function()
