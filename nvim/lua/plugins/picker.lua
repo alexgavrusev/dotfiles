@@ -13,11 +13,15 @@ return {
 		opts = {}
 	},
 	{
+		"echasnovski/mini.icons",
+		version = "*",
+		lazy = true
+	},
+	{
 		"echasnovski/mini.pick",
 		version = "*",
 		dependencies = {
 			"echasnovski/mini.extra",
-			"echasnovski/mini.icons",
 		},
 		cmd = { "Pick" },
 		keys = {
@@ -72,6 +76,29 @@ return {
 				desc = "Diagnostics (current buffer)"
 			},
 		},
+		init = function()
+			-- Taken from https://github.com/luisdavim/dotfiles/blob/f832fb56c1daa71b7ea60c8aa37f32ba1b04c7c8/files/config/nvim/init.lua#L959
+			vim.ui.select = function(items, opts, on_choice)
+				local get_cursor_anchor = function() return vim.fn.screenrow() < 0.5 * vim.o.lines and "NW" or "SW" end
+				local num_items = #items
+				local max_height = math.floor(0.45 * vim.o.columns)
+				local height = math.min(math.max(num_items, 1), max_height)
+				local start_opts = {
+					options = { content_from_bottom = get_cursor_anchor() == "SW" },
+					window = {
+						config = {
+							relative = "cursor",
+							anchor = get_cursor_anchor(),
+							row = get_cursor_anchor() == "NW" and 1 or 0,
+							col = 0,
+							width = math.floor(0.45 * vim.o.columns),
+							height = height,
+						},
+					},
+				}
+				return require("mini.pick").ui_select(items, opts, on_choice, start_opts)
+			end
+		end,
 		opts = {
 			window = {
 				config = {

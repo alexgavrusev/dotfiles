@@ -1,13 +1,19 @@
 return {
 	{
+		"echasnovski/mini.icons",
+		version = "*",
+		lazy = true
+	},
+	{
 		"saghen/blink.cmp",
 		event = "InsertEnter",
 		dependencies = {
 			"rafamadriz/friendly-snippets",
-			"echasnovski/mini.icons",
 		},
 		version = "*",
 		opts = {
+			-- To get completion in Snacks.input
+			enabled = function() return true end,
 			keymap = { preset = "default" },
 			completion = {
 				accept = {
