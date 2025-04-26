@@ -1,4 +1,5 @@
 vim.lsp.enable("ts_ls")
+vim.lsp.enable("eslint")
 
 return {
 	{
@@ -16,6 +17,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"typescript-language-server",
+				"eslint-lsp",
 				"prettierd"
 			}
 		}
