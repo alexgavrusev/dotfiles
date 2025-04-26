@@ -2,64 +2,63 @@ return {
 	"neovim/nvim-lspconfig",
 	event = "VeryLazy",
 	dependencies = {
-		"mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		-- "hrsh7th/cmp-nvim-lsp",
+		"williamboman/mason.nvim",
 	},
-	config = function(_, opts)
-		local ensure_installed = {}
-		-- individial langs add opts
-		for server in pairs(opts.servers) do
-			ensure_installed[#ensure_installed + 1] = server
-		end
-
-		local capabilities = vim.tbl_deep_extend(
-			"force",
-			{},
-			vim.lsp.protocol.make_client_capabilities(),
-			require("blink.cmp").get_lsp_capabilities(),
-			require("utils.lsp").default_capabilities(),
-			opts.capabilities or {}
-		)
-
-		local on_attach = function(_, bufnr)
-			require("config.keymaps").lsp_buffer(bufnr)
-		end
-
-		-- inspired by https://github.com/LazyVim/LazyVim/blob/ec5981dfb1222c3bf246d9bcaa713d5cfa486fbd/lua/lazyvim/plugins/lsp/init.lua#L191
-		local setup = function(server)
-			local server_opts = vim.tbl_deep_extend("force", {
-				capabilities = vim.deepcopy(capabilities),
-				on_attach = on_attach
-			}, opts.servers[server] or {})
-
-			require("lspconfig")[server].setup(server_opts)
-		end
-
-
-		local mason_lsp = require("mason-lspconfig")
-
-		mason_lsp.setup({
-			ensure_installed = ensure_installed,
-			handlers = { setup }
+	config = function()
+		vim.lsp.config('*', {
+			capabilities = vim.tbl_deep_extend(
+				"force",
+				vim.lsp.protocol.make_client_capabilities(),
+				require("blink.cmp").get_lsp_capabilities({}, false),
+				require("utils.lsp").default_capabilities()
+			),
 		})
 
+		local lsp_group = vim.api.nvim_create_augroup('user-lsp-attach', { clear = true })
 
-		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-			vim.lsp.handlers.hover,
-			{ border = "rounded" }
-		)
-		vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-			vim.lsp.handlers.signature_help,
-			{ border = "rounded" }
-		)
+		vim.api.nvim_create_autocmd('LspAttach', {
+			group = lsp_group,
+			callback = function(event)
+				local map = function(modes, lhs, rhs, opts)
+					if type(opts) == "string" then
+						local desc = opts;
+						opts = { desc = desc }
+					end
 
-		require('lspconfig.ui.windows').default_options.border = "rounded"
+					vim.keymap.set(modes, lhs, rhs, vim.tbl_extend("keep", opts, { buffer = event.buf }))
+				end
 
-		local diagnostics_config = {
-			update_in_insert = true
-		}
+				-- Taken from https://github.com/Jlchong3/config.nvim/blob/60c96804ab201077d02eff9455950d2532fe46c3/lua/custom/lsp.lua#L139
+				-- Also see https://github.com/echasnovski/mini.nvim/issues/978#issuecomment-2428497300
+				local on_list = function(opts)
+					local previous = vim.fn.getqflist()
 
-		vim.diagnostic.config(diagnostics_config)
+					vim.fn.setqflist({}, " ", opts)
+					if #opts.items == 1 then
+						vim.cmd.cfirst()
+					else
+						require("mini.extra").pickers.list({ scope = "quickfix" }, { source = { name = opts.title } })
+					end
+
+					vim.fn.setqflist(previous, " ")
+				end
+
+				map("n", "grn", vim.lsp.buf.rename, '[R]e[n]ame')
+
+				map({ "n", "x" }, "gra", vim.lsp.buf.code_action, '[G]oto Code [A]ction')
+
+				map("n", "grr", function() vim.lsp.buf.references(nil, { on_list = on_list }) end, "[G]oto [R]eferences")
+
+				map("n", "gri", function() vim.lsp.buf.implementation({ on_list = on_list }) end,
+					"[G]oto [I]mplementation")
+
+				map("n", "grd", function() vim.lsp.buf.definition({ on_list = on_list }) end, "[G]oto [D]efinition")
+
+				map("n", "grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
+				map("n", "grt", function() vim.lsp.buf.type_definition({ on_list = on_list }) end,
+					"[T]ype Definition")
+			end
+		})
 	end
 }

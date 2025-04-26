@@ -1,3 +1,5 @@
+vim.lsp.enable("yamlls")
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -8,17 +10,10 @@ return {
 		}
 	},
 	{
-		"neovim/nvim-lspconfig",
-		opts = {
-			servers = {
-				yamlls = {}
-			}
-		}
-	},
-	{
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
+				"yaml-language-server",
 				"prettierd"
 			}
 		}

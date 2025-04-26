@@ -1,3 +1,5 @@
+vim.lsp.enable("lua_ls")
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -8,10 +10,10 @@ return {
 		}
 	},
 	{
-		"neovim/nvim-lspconfig",
+		"williamboman/mason.nvim",
 		opts = {
-			servers = {
-				lua_ls = {}
+			ensure_installed = {
+				"lua-language-server"
 			}
 		}
 	}

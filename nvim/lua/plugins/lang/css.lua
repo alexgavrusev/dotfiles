@@ -1,3 +1,6 @@
+vim.lsp.enable("cssls")
+vim.lsp.enable("tailwindcss")
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -9,18 +12,11 @@ return {
 		}
 	},
 	{
-		"neovim/nvim-lspconfig",
-		opts = {
-			servers = {
-				cssls = {},
-				tailwindcss = {},
-			}
-		}
-	},
-	{
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
+				"css-lsp",
+				"tailwindcss-language-server",
 				"prettierd"
 			}
 		}

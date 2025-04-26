@@ -1,3 +1,5 @@
+vim.lsp.enable("ts_ls")
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -10,17 +12,10 @@ return {
 		}
 	},
 	{
-		"neovim/nvim-lspconfig",
-		opts = {
-			servers = {
-				ts_ls = {}
-			}
-		}
-	},
-	{
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
+				"typescript-language-server",
 				"prettierd"
 			}
 		}

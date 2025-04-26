@@ -1,3 +1,5 @@
+vim.lsp.enable("jsonls")
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -9,17 +11,10 @@ return {
 		}
 	},
 	{
-		"neovim/nvim-lspconfig",
-		opts = {
-			servers = {
-				jsonls = {}
-			}
-		}
-	},
-	{
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
+				"vscode-json-language-server",
 				"prettierd"
 			}
 		}

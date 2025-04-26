@@ -1,3 +1,5 @@
+vim.lsp.enable("astro")
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -8,17 +10,10 @@ return {
 		}
 	},
 	{
-		"neovim/nvim-lspconfig",
-		opts = {
-			servers = {
-				astro = {}
-			}
-		}
-	},
-	{
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
+				"astro-language-server",
 				"prettierd"
 			}
 		}
