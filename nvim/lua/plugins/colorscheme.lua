@@ -29,7 +29,6 @@ return {
 				},
 			},
 			blink_cmp = true,
-			lsp_trouble = true,
 			gitsigns = true,
 			mini = {
 				enabled = true,
