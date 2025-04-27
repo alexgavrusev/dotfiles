@@ -1,10 +1,5 @@
 return {
 	{
-		"echasnovski/mini.icons",
-		version = "*",
-		lazy = true
-	},
-	{
 		"saghen/blink.cmp",
 		event = "InsertEnter",
 		dependencies = {

@@ -13,15 +13,11 @@ return {
 		opts = {}
 	},
 	{
-		"echasnovski/mini.icons",
-		version = "*",
-		lazy = true
-	},
-	{
 		"echasnovski/mini.pick",
 		version = "*",
 		dependencies = {
 			"echasnovski/mini.extra",
+			"echasnovski/mini.icons"
 		},
 		cmd = { "Pick" },
 		keys = {
