@@ -147,7 +147,12 @@ return {
 			pick.registry.buffers = function()
 				-- see https://github.com/echasnovski/mini.nvim/issues/525#issuecomment-1767795741
 				local wipeout_cur = function()
-					local bufnr = pick.get_picker_matches().current.bufnr
+					local matches = pick.get_picker_matches()
+					if matches == nil or matches.current == nil then
+						return
+					end
+
+					local bufnr = matches.current.bufnr
 
 					local items = {}
 					for _, item in ipairs(pick.get_picker_items()) do
@@ -158,19 +163,6 @@ return {
 					pick.set_picker_items(items)
 
 					require("bufdel").delete_buffer_expr(bufnr, false)
-				end
-
-				local wipeout_others = function()
-					local picker_items = pick.get_picker_items()
-					local current = pick.get_picker_matches().current
-
-					pick.set_picker_items({ current })
-
-					for _, item in ipairs(picker_items) do
-						if item.bufnr ~= current.bufnr then
-							require("bufdel").delete_buffer_expr(item.bufnr, false)
-						end
-					end
 				end
 
 				local buffer_mappings = {
