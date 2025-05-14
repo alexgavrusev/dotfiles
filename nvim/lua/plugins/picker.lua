@@ -176,7 +176,9 @@ return {
 			end
 
 			pick.registry.files = function()
-				pick.builtin.files({ tool = "rg" })
+				load_temp_rg(function()
+					pick.builtin.files({ tool = "rg" })
+				end)
 			end
 
 			pick.registry.grep_live = function()
