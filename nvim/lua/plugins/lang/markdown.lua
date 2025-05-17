@@ -23,5 +23,13 @@ return {
 				"markdown"
 			})
 		end,
-	}
+	},
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		ft = { "markdown" },
+		opts = {
+			file_types = { "markdown" }
+		},
+		opts_extend = { "file_types" }
+	},
 }
