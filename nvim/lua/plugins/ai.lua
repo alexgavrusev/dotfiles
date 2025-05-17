@@ -4,13 +4,6 @@ return {
 		lazy = true
 	},
 	{
-		"MeanderingProgrammer/render-markdown.nvim",
-		ft = { "codecompanion" },
-		opts = {
-			file_types = { "codecompanion" }
-		}
-	},
-	{
 		"olimorris/codecompanion.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
