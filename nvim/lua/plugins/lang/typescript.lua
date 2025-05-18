@@ -1,5 +1,29 @@
-vim.lsp.enable("ts_ls")
+vim.lsp.enable("vtsls")
 vim.lsp.enable("eslint")
+
+vim.lsp.config("vtsls", {
+	settings = {
+		-- https://github.com/yioneko/vtsls?tab=readme-ov-file#bad-performance-of-completion
+		vtsls = {
+			enableMoveToFileCodeAction = true,
+			autoUseWorkspaceTsdk = true,
+			experimental = {
+				completion = {
+					enableServerSideFuzzyMatch = true,
+				},
+			},
+		},
+		typescript = {
+			updateImportsOnFileMove = { enabled = "always" },
+			preferences = {
+				autoImportFileExcludePatterns = {
+					-- ruins completion perf
+					"aws-sdk"
+				},
+			},
+		},
+	},
+})
 
 return {
 	{
@@ -16,7 +40,7 @@ return {
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
-				"typescript-language-server",
+				"vtsls",
 				"eslint-lsp",
 				"prettierd",
 				"js-debug-adapter"
