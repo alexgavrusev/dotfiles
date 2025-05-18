@@ -16,9 +16,12 @@ return {
 
 					return require("codecompanion.adapters").extend("ollama", {
 						opts = {
-							tools = true
+							tools = true,
 						},
 						handlers = {
+							form_tools = function(self, tools)
+								return openai.handlers.form_tools(self, tools)
+							end,
 							tools = {
 								format_tool_calls = function(self, tools)
 									return openai.handlers.tools.format_tool_calls(self, tools)
@@ -30,7 +33,10 @@ return {
 						},
 						schema = {
 							model = {
-								default = "qwen3:14b",
+								default = "qwen3:0.6b",
+							},
+							num_ctx = {
+								default = 16384,
 							},
 						},
 					})
@@ -39,6 +45,29 @@ return {
 			strategies = {
 				chat = {
 					adapter = "ollama",
+					slash_commands = {
+						["buffer"] = {
+							opts = {
+								provider = "mini_pick",
+							},
+						},
+						["file"] = {
+							opts = {
+								provider = "mini_pick",
+							},
+						},
+						["help"] = {
+							opts = {
+								provider = "mini_pick",
+							},
+						},
+						["symbols"] = {
+							opts = {
+								provider = "mini_pick",
+							},
+						},
+					},
+
 				},
 				inline = {
 					adapter = "ollama",
