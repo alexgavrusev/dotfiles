@@ -14,8 +14,8 @@ return {
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
-				"docker-langserver",
-				"docker-compose-langserver"
+				"dockerfile-language-server",
+				"docker-compose-language-service"
 			}
 		}
 	},

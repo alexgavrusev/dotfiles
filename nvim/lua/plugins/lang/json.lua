@@ -14,7 +14,7 @@ return {
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
-				"vscode-json-language-server",
+				"json-lsp",
 				"prettierd"
 			}
 		}

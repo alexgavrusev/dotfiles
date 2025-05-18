@@ -13,7 +13,7 @@ return {
 		"williamboman/mason.nvim",
 		opts = {
 			ensure_installed = {
-				"graphql-lsp",
+				"graphql-language-service-cli",
 				"prettierd"
 			}
 		}
