@@ -28,6 +28,8 @@ return {
 					background = true,
 				},
 			},
+			dap = true,
+			dap_ui = true,
 			blink_cmp = true,
 			gitsigns = true,
 			mini = {

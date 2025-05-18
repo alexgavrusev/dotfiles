@@ -71,6 +71,11 @@ return {
 				"<cmd>Pick diagnostic scope='current'<cr>",
 				desc = "Diagnostics (current buffer)"
 			},
+			{
+				"<leader>fk",
+				"<cmd>Pick keymaps<cr>",
+				desc = "Keymaps"
+			}
 		},
 		init = function()
 			-- Taken from https://github.com/luisdavim/dotfiles/blob/f832fb56c1daa71b7ea60c8aa37f32ba1b04c7c8/files/config/nvim/init.lua#L959
