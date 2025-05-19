@@ -7,6 +7,7 @@ return {
 		keys = {
 			{ "<leader>dc", function() require("dap").continue() end,                                             desc = "[D]ebug Run/[C]ontinue (dap)" },
 			{ "<leader>dt", function() require("dap").terminate() end,                                            desc = "[D]ebug [T]erminate (dap)" },
+			{ "<leader>dD", function() require("dap").disconnect() end,                                           desc = "[D]ebug [D]isconnect (dap)" },
 
 			{ "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "[D]ebug [B]reakpoint [C]ondition (dap)" },
 			{ "<leader>db", function() require("dap").toggle_breakpoint() end,                                    desc = "[D]ebug Toggle [B]reakpoint (dap)" },
@@ -20,7 +21,16 @@ return {
 			{ "<leader>dk", function() require("dap").up() end,                                                   desc = "[D]ebug Stacktrace [U]p (dap)" },
 			{ "<leader>dj", function() require("dap").down() end,                                                 desc = "[D]ebug Stacktrace [D]own (dap)" },
 
-			{ "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "[D]ebug [W]idgets (dap)" },
+			{ "<leader>dw", function() require("dap.ui.widgets").hover("<cexpr>", { border = "rounded" }) end,    desc = "[D]ebug [W]idgets (dap)" },
+
+			{
+				"<leader>ds",
+				function()
+					local w = require("dap.ui.widgets")
+					w.cursor_float(w.sessions, { border = "rounded" }).open()
+				end,
+				desc = "[D]ebug [S]essions (dap)"
+			},
 		},
 		config = function()
 			-- https://github.com/mfussenegger/nvim-dap/issues/415#issuecomment-2230986168
