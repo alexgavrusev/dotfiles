@@ -83,9 +83,21 @@ return {
 
 			local js_filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
 
-			local vscode = require("dap.ext.vscode")
 			vscode.type_to_filetypes["node"] = js_filetypes
 			vscode.type_to_filetypes["pwa-node"] = js_filetypes
+
+			local function pick_port()
+				local co = coroutine.running()
+				return coroutine.create(function()
+					vim.ui.input({
+						prompt = "Enter debug port: ",
+						default = tostring(9229),
+					}, function(input)
+						local port_num = tonumber(input)
+						coroutine.resume(co, port_num)
+					end)
+				end)
+			end
 
 			for _, language in ipairs(js_filetypes) do
 				if not dap.configurations[language] then
@@ -103,6 +115,8 @@ return {
 							name = "Attach",
 							processId = require("dap.utils").pick_process,
 							cwd = "${workspaceFolder}",
+							port = pick_port,
+							restart = true,
 						},
 					}
 				end
