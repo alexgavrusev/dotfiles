@@ -27,6 +27,8 @@ cask "telegram"
 
 cask "spotify"
 
+cask "shortcat"
+
 cask "mullvadvpn"
 cask "the-unarchiver"
 cask "transmission"
