@@ -268,6 +268,7 @@ function setup-git() {
   
   alias gco='git checkout'
   alias gcob='git checkout -b'
+  alias gcom="${ZDOTDIR:-$HOME}/modules/git/checkout-match.sh"
   
   alias gc='git commit --verbose'
   alias gca='git add --all && git commit --verbose'
@@ -284,6 +285,8 @@ function setup-git() {
   
   alias glog="git log --oneline --decorate --graph"	
   alias gloga="git log --oneline --decorate --graph --all"
+
+  alias gsync="${ZDOTDIR:-$HOME}/modules/git/sync.sh"
 }
 
 #
