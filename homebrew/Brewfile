@@ -13,6 +13,8 @@ brew "git"
 brew "git-lfs"
 brew "neovim"
 
+brew "ghostscript"
+
 cask "google-chrome"
 
 cask "kitty"
