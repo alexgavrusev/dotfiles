@@ -236,6 +236,51 @@ return {
 					}
 				)
 			end
+
+			-- Taken from https://github.com/echasnovski/mini.nvim/blob/c122e852517adaf7257688e435369c050da113b1/lua/mini/extra.lua ; `show` changed to include item code and source
+			local ns_id = {
+				pickers = vim.api.nvim_create_namespace('MiniExtraPickers'),
+			}
+
+			local pick_clear_namespace = function(buf_id, ns_id)
+				pcall(
+					vim.api.nvim_buf_clear_namespace, buf_id, ns_id, 0, -1
+				)
+			end
+
+			local pick_highlight_line = function(buf_id, line, hl_group, priority)
+				local opts = { end_row = line, end_col = 0, hl_mode = 'blend', hl_group = hl_group, priority = priority }
+				vim.api.nvim_buf_set_extmark(buf_id, ns_id.pickers, line - 1, 0, opts)
+			end
+
+			local hl_groups_ref = {
+				[vim.diagnostic.severity.ERROR] = 'DiagnosticFloatingError',
+				[vim.diagnostic.severity.WARN] = 'DiagnosticFloatingWarn',
+				[vim.diagnostic.severity.INFO] = 'DiagnosticFloatingInfo',
+				[vim.diagnostic.severity.HINT] = 'DiagnosticFloatingHint',
+			}
+
+			local diagnostic_show = function(buf_id, items_to_show, query)
+				local items = vim.deepcopy(items_to_show)
+
+				for _, item in ipairs(items) do
+					item.text = string.format('%s  [%s - %s]', item.text, item.code, item.source)
+				end
+
+				pick.default_show(buf_id, items, query)
+
+				pick_clear_namespace(buf_id, ns_id.pickers)
+				for i, item in ipairs(items_to_show) do
+					pick_highlight_line(buf_id, i, hl_groups_ref[item.severity], 199)
+				end
+			end
+
+			pick.registry.diagnostic = function(local_opts)
+				require("mini.extra").pickers.diagnostic(
+					local_opts,
+					{ source = { show = diagnostic_show } }
+				)
+			end
 		end
 	},
 }
