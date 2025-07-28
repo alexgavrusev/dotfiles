@@ -3,6 +3,7 @@ return {
 		"mfussenegger/nvim-dap",
 		dependencies = {
 			"williamboman/mason.nvim",
+			"igorlfs/nvim-dap-view",
 		},
 		keys = {
 			{ "<leader>dc", function() require("dap").continue() end,                                             desc = "[D]ebug Run/[C]ontinue (dap)" },
@@ -57,22 +58,16 @@ return {
 		end,
 	},
 	{
-		"rcarriga/nvim-dap-ui",
-		dependencies = {
-			"mfussenegger/nvim-dap",
-			"nvim-neotest/nvim-nio"
-		},
+		"igorlfs/nvim-dap-view",
 		keys = {
-			{ "<leader>du", function() require("dapui").toggle({}) end, desc = "[D]ebug [U]I (dap-ui)" },
+			{ "<leader>du", function() require("dap-view").toggle({ hide_terminal = true }) end, desc = "[D]ebug [U]I (dap-ui)" }
 		},
 		opts = {
-			controls = {
-				enabled = false
+			winbar = {
+				show = true,
+				sections = { "watches", "scopes", "exceptions", "breakpoints", "threads", "repl", "console" },
 			}
-		}
-	},
-	{
-		"nvim-lua/plenary.nvim",
-		lazy = true
+
+		},
 	},
 }
