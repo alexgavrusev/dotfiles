@@ -25,9 +25,9 @@ function setup-homebrew-completion() {
 # Homebrew command not found handler
 #
 function setup-homebrew-command-not-found-handler() {
-  if [[ -s ${hb_cnf_handler::="${HOMEBREW_REPOSITORY:-$commands[brew]:A:h:h}/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"} ]]; then
-    source "$hb_cnf_handler"
-    unset hb_cnf_handler
+  HOMEBREW_COMMAND_NOT_FOUND_HANDLER="$(brew --repository)/Library/Homebrew/command-not-found/handler.sh"
+  if [ -f "$HOMEBREW_COMMAND_NOT_FOUND_HANDLER" ]; then
+    source "$HOMEBREW_COMMAND_NOT_FOUND_HANDLER";
   fi
 }
 
