@@ -408,6 +408,15 @@ function setup-podman() {
 }
 
 #
+# Python
+#
+function setup-python() {
+  if [[ -e "$HOME/.local/bin" ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+}
+
+#
 # P10k
 #
 function ensure-installed-p10k() {
@@ -457,6 +466,8 @@ setup-history-substring-search
 setup-fnm
 
 setup-podman
+
+setup-python
 
 ensure-installed-p10k
 setup-p10k
