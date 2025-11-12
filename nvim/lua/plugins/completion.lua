@@ -50,6 +50,14 @@ return {
 					auto_show = true,
 					window = { border = "rounded" }
 				},
+				trigger = {
+					show_on_blocked_trigger_characters = function(ctx)
+						-- https://github.com/saghen/blink.cmp/issues/2007 -- to get decorators auto import
+						if vim.bo.filetype == 'typescript' then return { ' ', '\n', '\t', '@' } end
+
+						return { ' ', '\n', '\t' }
+					end,
+				}
 			}
 		},
 		opts_extend = { "sources.default" }
