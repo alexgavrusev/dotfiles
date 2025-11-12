@@ -9,7 +9,11 @@ return {
 		opts = {
 			-- To get completion in Snacks.input
 			enabled = function() return true end,
-			keymap = { preset = "default" },
+			keymap = {
+				preset = "default",
+				['<C-u>'] = { 'scroll_signature_up', 'fallback' },
+				['<C-d>'] = { 'scroll_signature_down', 'fallback' },
+			},
 			completion = {
 				accept = {
 					auto_brackets = {
@@ -58,7 +62,13 @@ return {
 						return { ' ', '\n', '\t' }
 					end,
 				}
-			}
+			},
+			signature = {
+				enabled = true,
+				window = {
+					show_documentation = true
+				}
+			},
 		},
 		opts_extend = { "sources.default" }
 	}
