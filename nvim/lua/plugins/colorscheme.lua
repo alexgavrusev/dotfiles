@@ -3,31 +3,32 @@ return {
 	name = "catppuccin",
 	priority = 1000,
 	opts = {
+		float = {
+			solid = true,
+		},
 		default_integrations = false,
+		lsp_styles = {
+			virtual_text = {
+				errors = { "italic" },
+				hints = { "italic" },
+				warnings = { "italic" },
+				information = { "italic" },
+				ok = { "italic" },
+			},
+			underlines = {
+				errors = { "underline" },
+				hints = { "underline" },
+				warnings = { "underline" },
+				information = { "underline" },
+				ok = { "underline" },
+			},
+			inlay_hints = {
+				background = true,
+			},
+		},
 		integrations = {
-			treesitter = true,
 			treesitter_context = true,
 			mason = true,
-			native_lsp = {
-				enabled = true,
-				virtual_text = {
-					errors = { "italic" },
-					hints = { "italic" },
-					warnings = { "italic" },
-					information = { "italic" },
-					ok = { "italic" },
-				},
-				underlines = {
-					errors = { "underline" },
-					hints = { "underline" },
-					warnings = { "underline" },
-					information = { "underline" },
-					ok = { "underline" },
-				},
-				inlay_hints = {
-					background = true,
-				},
-			},
 			dap = true,
 			dap_ui = true,
 			blink_cmp = true,
@@ -58,6 +59,11 @@ return {
 
 				BlinkCmpLabelMatch = { fg = C.blue },
 				BlinkCmpMenuSelection = { fg = "none", bg = C.surface1 },
+
+				MiniPickMatchCurrent = { fg = C.none },
+				MiniPickPrompt = { bg = C.none },
+				MiniPickPromptCaret = { bg = C.none },
+				MiniPickPromptPrefix = { bg = C.none },
 			}
 		end,
 	},

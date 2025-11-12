@@ -3,7 +3,6 @@ return {
 		"mfussenegger/nvim-dap",
 		dependencies = {
 			"williamboman/mason.nvim",
-			"igorlfs/nvim-dap-view",
 		},
 		keys = {
 			{ "<leader>dc", function() require("dap").continue() end,                                             desc = "[D]ebug Run/[C]ontinue (dap)" },
