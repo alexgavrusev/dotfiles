@@ -78,6 +78,18 @@ return {
 			}
 		},
 		init = function()
+		end,
+		opts = {
+			window = {
+				config = {
+					border = "rounded",
+				},
+			},
+		},
+		config = function(_, opts)
+			local pick = require("mini.pick")
+			pick.setup(opts)
+
 			-- Taken from https://github.com/luisdavim/dotfiles/blob/f832fb56c1daa71b7ea60c8aa37f32ba1b04c7c8/files/config/nvim/init.lua#L959
 			vim.ui.select = function(items, opts, on_choice)
 				local get_cursor_anchor = function() return vim.fn.screenrow() < 0.5 * vim.o.lines and "NW" or "SW" end
@@ -97,19 +109,8 @@ return {
 						},
 					},
 				}
-				return require("mini.pick").ui_select(items, opts, on_choice, start_opts)
+				return pick.ui_select(items, opts, on_choice, start_opts)
 			end
-		end,
-		opts = {
-			window = {
-				config = {
-					border = "rounded",
-				},
-			},
-		},
-		config = function(_, opts)
-			local pick = require("mini.pick")
-			pick.setup(opts)
 
 			-- approach from https://github.com/echasnovski/mini.nvim/issues/1291
 			local load_temp_rg = function(f)
