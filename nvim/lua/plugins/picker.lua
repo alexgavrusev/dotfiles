@@ -142,9 +142,27 @@ return {
 					require("bufdel").delete_buffer_expr(bufnr, false)
 				end
 
+				local wipeout_others = function()
+					local matches = pick.get_picker_matches()
+					if matches == nil or matches.current == nil then
+						return
+					end
+
+					local bufnr = matches.current.bufnr
+					local bufdel = require("bufdel")
+
+					for _, item in ipairs(pick.get_picker_items()) do
+						if bufnr ~= item.bufnr then
+							bufdel.delete_buffer_expr(item.bufnr, false)
+						end
+					end
+
+					pick.set_picker_items({ matches.current })
+				end
+
 				local buffer_mappings = {
-					wipeout_cur = { char = "<C-d>", func = wipeout_cur },
-					-- TODO: create mapping for wipeout_others
+					wipeout_cur    = { char = "<C-d>", func = wipeout_cur },
+					wipeout_others = { char = "<C-S-d>", func = wipeout_others },
 				}
 
 				pick.builtin.buffers({}, {
