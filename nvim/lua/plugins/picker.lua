@@ -58,7 +58,7 @@ return {
 			},
 			{
 				"<leader>fq",
-				"<cmd>Pick list scope='quickfix'<cr>",
+				"<cmd>Pick quickfix<cr>",
 				desc = "Quickfix list"
 			},
 			{
@@ -306,6 +306,23 @@ return {
 				for i, item in ipairs(items_to_show) do
 					pick_highlight_line(buf_id, i, hl_groups_ref[item.severity], 199)
 				end
+			end
+
+			pick.registry.quickfix = function(local_opts)
+				-- set the matched picker item to the current qflist item
+				local current_idx = vim.fn.getqflist({ idx = 0 }).idx
+				if current_idx > 0 then
+					vim.api.nvim_create_autocmd('User', {
+						pattern = 'MiniPickStart',
+						once = true,
+						callback = function()
+							pick.set_picker_match_inds({ current_idx }, 'current')
+						end,
+					})
+				end
+				require('mini.extra').pickers.list(
+					vim.tbl_extend('force', local_opts or {}, { scope = 'quickfix' })
+				)
 			end
 
 			pick.registry.diagnostic = function(local_opts)
