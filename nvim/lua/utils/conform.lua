@@ -18,4 +18,22 @@ M.configure_prettier = function(opts, filetypes)
 	}
 end
 
+M.configure_oxfmt = function(opts, filetypes)
+	local formatters_by_ft = {}
+
+	for _, v in ipairs(filetypes) do
+		formatters_by_ft[v] = { "oxfmt", "prettierd", stop_after_first = true }
+	end
+
+	opts.formatters_by_ft = vim.tbl_extend("force", opts.formatters_by_ft or {}, formatters_by_ft)
+
+	opts.formatters = vim.tbl_extend("force", opts.formatters or {}, {
+		prettierd = {
+			env = {
+				PRETTIERD_LOCAL_PRETTIER_ONLY = 1,
+			},
+		},
+	})
+end
+
 return M
