@@ -16,8 +16,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"css-lsp",
-				"tailwindcss-language-server",
-				"prettierd"
+				"tailwindcss-language-server"
 			}
 		}
 	},

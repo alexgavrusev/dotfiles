@@ -42,7 +42,6 @@ return {
 			ensure_installed = {
 				"vtsls",
 				"eslint-lsp",
-				"prettierd",
 				"js-debug-adapter"
 			}
 		}
