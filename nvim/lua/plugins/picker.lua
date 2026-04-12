@@ -250,11 +250,54 @@ return {
 				[vim.diagnostic.severity.HINT] = 'DiagnosticFloatingHint',
 			}
 
-			local diagnostic_show = function(buf_id, items_to_show, query)
-				local items = vim.deepcopy(items_to_show)
+			-- see H.ensure_text_width from mini.extra
+			local ensure_text_width = function(text, width)
+				local text_width = vim.fn.strchars(text)
+				if text_width <= width then
+					return text .. string.rep(' ', width - text_width)
+				end
+				return '…' .. vim.fn.strcharpart(text, text_width - width + 1, width - 1)
+			end
 
+			local diagnostic_make_text = function(item, path_col_width)
+				local sev = (vim.diagnostic.severity[item.severity] or ' '):sub(1, 1)
+				local path_col = string.format('%s:%s:%s', item.path, item.lnum, item.col)
+				return string.format('%s │ %s │ %s  [%s - %s]',
+					sev,
+					ensure_text_width(path_col, path_col_width),
+					item.message:gsub('\n', ' '),
+					item.code or '?', item.source or '?'
+				)
+			end
+
+			local diagnostic_path_col_width = function(items)
+				local width = 0
 				for _, item in ipairs(items) do
-					item.text = string.format('%s  [%s - %s]', item.text, item.code, item.source)
+					width = math.max(width, vim.fn.strchars(
+						string.format('%s:%s:%s', item.path, item.lnum, item.col)
+					))
+				end
+				return width
+			end
+
+			local diagnostic_match = function(stritems, inds, query)
+				local items = pick.get_picker_items() or {}
+				local path_col_width = diagnostic_path_col_width(items)
+				local aug_stritems = {}
+				for i = 1, #stritems do
+					local item = items[i]
+					aug_stritems[i] = type(item) == 'table'
+						and diagnostic_make_text(item, path_col_width)
+						or stritems[i]
+				end
+				return pick.default_match(aug_stritems, inds, query)
+			end
+
+			local diagnostic_show = function(buf_id, items_to_show, query)
+				local path_col_width = diagnostic_path_col_width(pick.get_picker_items() or {})
+				local items = vim.deepcopy(items_to_show)
+				for _, item in ipairs(items) do
+					item.text = diagnostic_make_text(item, path_col_width)
 				end
 
 				pick.default_show(buf_id, items, query)
@@ -268,7 +311,7 @@ return {
 			pick.registry.diagnostic = function(local_opts)
 				require("mini.extra").pickers.diagnostic(
 					local_opts,
-					{ source = { show = diagnostic_show } }
+					{ source = { show = diagnostic_show, match = diagnostic_match } }
 				)
 			end
 		end
