@@ -308,6 +308,14 @@ return {
 				end
 			end
 
+			local quickfix_choose = function(item)
+				local matches = pick.get_picker_matches()
+				if matches and matches.current_ind then
+					vim.fn.setqflist({}, 'r', { idx = matches.current_ind })
+				end
+				pick.default_choose(item)
+			end
+
 			pick.registry.quickfix = function(local_opts)
 				-- set the matched picker item to the current qflist item
 				local current_idx = vim.fn.getqflist({ idx = 0 }).idx
@@ -321,7 +329,12 @@ return {
 					})
 				end
 				require('mini.extra').pickers.list(
-					vim.tbl_extend('force', local_opts or {}, { scope = 'quickfix' })
+					vim.tbl_extend('force', local_opts or {}, { scope = 'quickfix' }),
+					{
+						source = {
+							choose = quickfix_choose,
+						},
+					}
 				)
 			end
 
