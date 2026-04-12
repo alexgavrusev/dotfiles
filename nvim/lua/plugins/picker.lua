@@ -338,6 +338,18 @@ return {
 				)
 			end
 
+			-- see https://github.com/folke/trouble.nvim/blob/dev/docs/examples.md#open-trouble-quickfix-when-the-qf-list-opens
+			vim.api.nvim_create_autocmd("BufRead", {
+				callback = function(ev)
+					if vim.bo[ev.buf].buftype == "quickfix" then
+						vim.schedule(function()
+							vim.cmd([[cclose]])
+							vim.cmd([[Pick quickfix]])
+						end)
+					end
+				end,
+			})
+
 			pick.registry.diagnostic = function(local_opts)
 				require("mini.extra").pickers.diagnostic(
 					local_opts,
