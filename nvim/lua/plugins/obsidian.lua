@@ -1,12 +1,12 @@
 return {
 	{
-		"epwalsh/obsidian.nvim",
-		version = "*",
+		"obsidian-nvim/obsidian.nvim",
 		event = {
 			"BufReadPre " .. vim.fn.expand("~") .. "/second-brain/**.md",
 			"BufNewFile " .. vim.fn.expand("~") .. "/second-brain/**.md",
 		},
 		opts = {
+			legacy_commands = false,
 			workspaces = {
 				{
 					name = "Second Brain",
@@ -14,11 +14,14 @@ return {
 				},
 			},
 			ui = {
-				enable = false
+				enable = false,
+			},
+			footer = {
+				enabled = false,
 			},
 			picker = {
 				name = "mini.pick",
 			},
-		}
-	}
+		},
+	},
 }
