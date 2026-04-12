@@ -308,6 +308,13 @@ return {
 				end
 			end
 
+			pick.registry.diagnostic = function(local_opts)
+				require("mini.extra").pickers.diagnostic(
+					local_opts,
+					{ source = { show = diagnostic_show, match = diagnostic_match } }
+				)
+			end
+
 			local quickfix_choose = function(item)
 				local matches = pick.get_picker_matches()
 				if matches and matches.current_ind then
@@ -349,13 +356,6 @@ return {
 					end
 				end,
 			})
-
-			pick.registry.diagnostic = function(local_opts)
-				require("mini.extra").pickers.diagnostic(
-					local_opts,
-					{ source = { show = diagnostic_show, match = diagnostic_match } }
-				)
-			end
 		end
 	},
 }
