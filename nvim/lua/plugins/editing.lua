@@ -27,6 +27,20 @@ return {
 				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 			})
 		end,
+	},
+	{
+		"folke/zen-mode.nvim",
+		keys = {
+			{
+				"<leader>z",
+				"<cmd>ZenMode<cr>",
+				desc = "Toggle zen mode"
+			}
+		},
+		opts = {
+			window = {
+				backdrop = 1,
+			}
+		}
 	}
-
 }
