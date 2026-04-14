@@ -336,12 +336,42 @@ return {
 					})
 				end
 				require('mini.extra').pickers.list(
-					vim.tbl_extend('force', local_opts or {}, { scope = 'quickfix' }),
+					vim.tbl_deep_extend('force', local_opts or {}, { scope = 'quickfix' }),
 					{
 						source = {
 							choose = quickfix_choose,
 						},
 					}
+				)
+			end
+
+			local loclist_choose = function(item)
+				local matches = pick.get_picker_matches()
+				if matches and matches.current_ind then
+					vim.fn.setloclist(0, {}, 'r', { idx = matches.current_ind })
+				end
+				pick.default_choose(item)
+			end
+
+			pick.registry.loclist = function(local_opts, global_opts)
+				-- set the matched picker item to the current loclist item
+				local current_idx = vim.fn.getloclist(0, { idx = 0 }).idx
+				if current_idx > 0 then
+					vim.api.nvim_create_autocmd('User', {
+						pattern = 'MiniPickStart',
+						once = true,
+						callback = function()
+							pick.set_picker_match_inds({ current_idx }, 'current')
+						end,
+					})
+				end
+				require('mini.extra').pickers.list(
+					vim.tbl_deep_extend('force', local_opts or {}, { scope = 'location' }),
+					vim.tbl_deep_extend('force', global_opts or {}, {
+						source = {
+							choose = loclist_choose,
+						},
+					})
 				)
 			end
 

@@ -30,17 +30,18 @@ return {
 
 				-- Taken from https://github.com/Jlchong3/config.nvim/blob/60c96804ab201077d02eff9455950d2532fe46c3/lua/custom/lsp.lua#L139
 				-- Also see https://github.com/echasnovski/mini.nvim/issues/978#issuecomment-2428497300
+				-- Using loclist as to not interfere with qflist, which could be used if items get chosen into it
 				local on_list = function(opts)
-					local previous = vim.fn.getqflist()
+					local previous = vim.fn.getloclist(0)
 
-					vim.fn.setqflist({}, " ", opts)
+					vim.fn.setloclist(0, {}, " ", opts)
 					if #opts.items == 1 then
-						vim.cmd.cfirst()
+						vim.cmd.lfirst()
 					else
-						require("mini.extra").pickers.list({ scope = "quickfix" }, { source = { name = opts.title } })
+						require("mini.pick").registry.loclist({}, { source = { name = opts.title } })
 					end
 
-					vim.fn.setqflist(previous, " ")
+					vim.fn.setloclist(0, previous, " ")
 				end
 
 				map("n", "grn", vim.lsp.buf.rename, '[R]e[n]ame')
