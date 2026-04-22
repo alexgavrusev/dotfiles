@@ -20,7 +20,35 @@ return {
 		config = function(_, opts)
 			opts.ensure_installed = require("utils.lists").dedup(opts.ensure_installed)
 
-			require("nvim-treesitter.configs").setup(opts)
+			local ts = require("nvim-treesitter");
+
+			ts.setup(opts)
+
+			local installed = require('nvim-treesitter.config').get_installed()
+
+			local to_install = vim.iter(opts.ensure_installed)
+				:filter(function(parser)
+					return not vim.tbl_contains(installed, parser)
+				end)
+				:totable()
+
+			ts.install(to_install)
+
+			installed = vim.tbl_extend("force", installed, to_install)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("user-treesitter", { clear = true }),
+				callback = function(ev)
+					local lang = vim.treesitter.language.get_lang(ev.match)
+					if not installed[lang] then
+						return
+					end
+
+					pcall(vim.treesitter.start, ev.buf)
+
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
 		end,
 	},
 	{
@@ -30,24 +58,30 @@ return {
 		},
 		event = { "VeryLazy" },
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				textobjects = {
-					select = {
-						enable = true,
+			require("nvim-treesitter-textobjects").setup({
+				select = {
+					-- Automatically jump forward to textobj, similar to targets.vim
+					lookahead = true,
+				},
+			})
 
-						-- Automatically jump forward to textobj, similar to targets.vim
-						lookahead = true,
+			local map_select_textobjects = function(mappings)
+				local select = require("nvim-treesitter-textobjects.select")
 
-						keymaps = {
-							["af"] = { query = "@function.outer", desc = "Select outer function" },
-							["if"] = { query = "@function.inner", desc = "Select inner function" },
-							["ac"] = { query = "@class.outer", desc = "Select outer class" },
-							["ic"] = { query = "@class.inner", desc = "Select inner class" },
-							["ab"] = { query = "@block.outer", desc = "Select outer block" },
-							["ib"] = { query = "@block.inner", desc = "Select inner block" },
-						},
-					},
-				}
+				for keys, capture in pairs(mappings) do
+					vim.keymap.set({ "x", "o" }, keys, function()
+						select.select_textobject(capture, "textobjects")
+					end, { desc = "Select textobject " .. capture })
+				end
+			end
+
+			map_select_textobjects({
+				["af"] = "@function.outer",
+				["if"] = "@function.inner",
+				["ac"] = "@class.outer",
+				["ic"] = "@class.inner",
+				["ab"] = "@block.outer",
+				["ib"] = "@block.inner",
 			})
 		end
 	},

@@ -12,6 +12,7 @@ brew "asdf"
 brew "git"
 brew "git-lfs"
 brew "neovim"
+brew "tree-sitter-cli"
 
 brew "ghostscript"
 
