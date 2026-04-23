@@ -418,6 +418,15 @@ function setup-python() {
 }
 
 #
+# Solidity
+#
+function setup-solidity() {
+  if [[ -e "$HOME/.foundry/bin" ]]; then
+    export PATH="$PATH:/Users/gvrs/.foundry/bin"
+  fi
+}
+
+#
 # P10k
 #
 function ensure-installed-p10k() {
@@ -469,6 +478,8 @@ setup-fnm
 setup-podman
 
 setup-python
+
+setup-solidity
 
 ensure-installed-p10k
 setup-p10k
