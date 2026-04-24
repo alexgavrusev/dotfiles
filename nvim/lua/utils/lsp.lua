@@ -94,6 +94,23 @@ function M.on_delete_file(name)
 	)
 end
 
+--- Returns a root_dir function that first searches upward for a marker file.
+--- If found, the marker's directory becomes the LSP root.
+--- Otherwise delegates to the provided lspconfig default root_dir.
+---@param marker_name string
+---@param fallback fun(bufnr: integer, on_dir: fun(dir: string))
+---@return fun(bufnr: integer, on_dir: fun(dir: string))
+function M.marker_root_dir(marker_name, fallback)
+	return function(bufnr, on_dir)
+		local dir = vim.fs.root(bufnr, marker_name)
+		if dir then
+			on_dir(dir)
+			return
+		end
+		fallback(bufnr, on_dir)
+	end
+end
+
 function M.default_capabilities()
 	return {
 		workspace = {
