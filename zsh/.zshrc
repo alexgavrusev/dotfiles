@@ -287,6 +287,7 @@ function setup-git() {
   alias gloga="git log --oneline --decorate --graph --all"
 
   alias gsync="${ZDOTDIR:-$HOME}/modules/git/sync.sh"
+  alias gsyncr="${ZDOTDIR:-$HOME}/modules/git/sync-rebase.sh"
 }
 
 #
