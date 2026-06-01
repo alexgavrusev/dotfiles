@@ -141,6 +141,14 @@ fi
 # Terminal
 #####################################
 
+ensure_tpm() {
+    TPM_DIR=$HOME/.tmux/plugins/tpm
+    if [ ! -d $TPM_DIR ]; then
+        echo "tpm not found, cloning"
+        git clone https://github.com/tmux-plugins/tpm $TPM_DIR
+	fi
+}
+
 configure_terminal() {
     echo "Linking tmux config"
     ln -sf $DOTFILES_DIR/tmux/tmux.conf ~/.tmux.conf 
@@ -153,6 +161,7 @@ configure_terminal() {
 }
 
 if ask "Configure the terminal (tmux, kitty, nvim)?" Y; then
+	ensure_tpm
     configure_terminal
 fi
 
