@@ -291,6 +291,14 @@ function setup-git() {
 }
 
 #
+# tmux
+#
+function setup-tmux() {
+  [[ -n $TMUX ]] || return
+  source "${ZDOTDIR:-$HOME}/modules/tmux/pane-title.zsh"
+}
+
+#
 # Completion inspired by `completion` module in prezto
 #
 function setup-completion() {
@@ -461,6 +469,8 @@ setup-directory-dot-expansion
 setup-vi-mode
 
 setup-git
+
+setup-tmux
 
 setup-completion
 
