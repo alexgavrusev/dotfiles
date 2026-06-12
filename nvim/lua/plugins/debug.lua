@@ -22,15 +22,6 @@ return {
 			{ "<leader>dj", function() require("dap").down() end,                                                 desc = "[D]ebug Stacktrace [D]own (dap)" },
 
 			{ "<leader>dw", function() require("dap.ui.widgets").hover("<cexpr>", { border = "rounded" }) end,    desc = "[D]ebug [W]idgets (dap)" },
-
-			{
-				"<leader>ds",
-				function()
-					local w = require("dap.ui.widgets")
-					w.cursor_float(w.sessions, { border = "rounded" }).open()
-				end,
-				desc = "[D]ebug [S]essions (dap)"
-			},
 		},
 		config = function()
 			-- https://github.com/mfussenegger/nvim-dap/issues/415#issuecomment-2230986168
@@ -64,7 +55,7 @@ return {
 		opts = {
 			winbar = {
 				show = true,
-				sections = { "watches", "scopes", "exceptions", "breakpoints", "threads", "repl", "console" },
+				sections = { "watches", "scopes", "exceptions", "breakpoints", "threads", "sessions", "repl", "console" },
 			}
 
 		},
