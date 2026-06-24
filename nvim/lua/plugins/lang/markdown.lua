@@ -22,5 +22,27 @@ return {
 				"markdown"
 			})
 		end,
+	},
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = {
+			enabled = false,
+			heading = {
+				icons = {},
+			},
+			code = {
+				-- to get mermaid rendering with snacks.image working
+				disable = { "mermaid" },
+			},
+		},
+		keys = {
+			{
+				"<leader>mp",
+				"<cmd>RenderMarkdown toggle<cr>",
+				ft = "markdown",
+				desc = "Toggle markdown preview",
+			},
+		},
 	}
 }
