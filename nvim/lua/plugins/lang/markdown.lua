@@ -25,7 +25,10 @@ return {
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"ice345/markdown-table-wrap.nvim",
+		},
 		opts = {
 			enabled = false,
 			heading = {
@@ -35,14 +38,35 @@ return {
 				-- to get mermaid rendering with snacks.image working
 				disable = { "mermaid" },
 			},
+			pipe_table = {
+				-- using markdown-table-wrap.nvim while https://github.com/MeanderingProgrammer/render-markdown.nvim/issues/616 is open
+				enabled = false,
+			},
 		},
 		keys = {
 			{
 				"<leader>mp",
-				"<cmd>RenderMarkdown toggle<cr>",
+				function()
+					local rm = require("render-markdown")
+					local mtw = require("markdown-table-wrap")
+					rm.toggle()
+					if rm.get() then
+						mtw.enable_auto_preview()
+					else
+						mtw.disable_auto_preview()
+					end
+				end,
 				ft = "markdown",
 				desc = "Toggle markdown preview",
 			},
 		},
-	}
+	},
+	{
+		"ice345/markdown-table-wrap.nvim",
+		opts = {
+			-- start disabled to match render-markdown, so <leader>mp toggles both in sync
+			auto_preview = false,
+		},
+		lazy = true
+	},
 }
