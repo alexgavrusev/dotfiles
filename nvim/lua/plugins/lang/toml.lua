@@ -1,6 +1,12 @@
-vim.lsp.enable("taplo")
-
 return {
+	{
+		"neovim/nvim-lspconfig",
+		opts = {
+			servers = {
+				taplo = {},
+			},
+		},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = {

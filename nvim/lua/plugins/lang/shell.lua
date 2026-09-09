@@ -1,6 +1,12 @@
-vim.lsp.enable("bashls")
-
 return {
+	{
+		"neovim/nvim-lspconfig",
+		opts = {
+			servers = {
+				bashls = {},
+			},
+		},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = {

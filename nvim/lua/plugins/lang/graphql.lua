@@ -1,6 +1,12 @@
-vim.lsp.enable("graphql")
-
 return {
+	{
+		"neovim/nvim-lspconfig",
+		opts = {
+			servers = {
+				graphql = {},
+			},
+		},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = {

@@ -1,6 +1,12 @@
-vim.lsp.enable("solidity_ls")
-
 return {
+	{
+		"neovim/nvim-lspconfig",
+		opts = {
+			servers = {
+				solidity_ls = {},
+			},
+		},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = {

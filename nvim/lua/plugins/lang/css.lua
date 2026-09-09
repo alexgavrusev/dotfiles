@@ -1,7 +1,13 @@
-vim.lsp.enable("cssls")
-vim.lsp.enable("tailwindcss")
-
 return {
+	{
+		"neovim/nvim-lspconfig",
+		opts = {
+			servers = {
+				cssls = {},
+				tailwindcss = {},
+			},
+		},
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = {

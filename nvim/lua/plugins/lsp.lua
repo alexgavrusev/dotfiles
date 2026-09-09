@@ -4,7 +4,10 @@ return {
 	dependencies = {
 		"williamboman/mason.nvim",
 	},
-	config = function()
+	opts = {
+		servers = {},
+	},
+	config = function(_, opts)
 		vim.lsp.config('*', {
 			capabilities = vim.tbl_deep_extend(
 				"force",
@@ -13,6 +16,15 @@ return {
 				require("utils.lsp").default_capabilities()
 			),
 		})
+
+		local server_names = {}
+
+		for name, server_config in pairs(opts.servers) do
+			vim.lsp.config(name, server_config)
+			server_names[#server_names + 1] = name
+		end
+
+		vim.lsp.enable(server_names)
 
 		local lsp_group = vim.api.nvim_create_augroup('user-lsp-attach', { clear = true })
 
