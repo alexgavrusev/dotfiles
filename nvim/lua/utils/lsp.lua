@@ -101,6 +101,9 @@ end
 ---@param fallback fun(bufnr: integer, on_dir: fun(dir: string))
 ---@return fun(bufnr: integer, on_dir: fun(dir: string))
 function M.marker_root_dir(marker_name, fallback)
+	vim.validate("marker_name", marker_name, "string")
+	vim.validate("fallback", fallback, "function")
+
 	return function(bufnr, on_dir)
 		local dir = vim.fs.root(bufnr, marker_name)
 		if dir then

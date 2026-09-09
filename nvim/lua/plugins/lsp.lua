@@ -20,6 +20,18 @@ return {
 		local server_names = {}
 
 		for name, server_config in pairs(opts.servers) do
+			if type(server_config) == "function" then
+				local default_config = assert(
+					vim.lsp.config[name],
+					("No default LSP configuration found for %q"):format(name)
+				)
+				server_config = server_config(default_config)
+			end
+
+			assert(
+				type(server_config) == "table",
+				("LSP configuration factory for %q must return a table"):format(name)
+			)
 			vim.lsp.config(name, server_config)
 			server_names[#server_names + 1] = name
 		end
