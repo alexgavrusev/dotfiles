@@ -11,6 +11,8 @@ return {
 							return
 						end
 
+						-- Default from https://github.com/neovim/nvim-lspconfig/blob/19576de1c1b6d1b5e231ea6ef9cba9a811c322bb/lsp/eslint.lua#L114 follows
+
 						local eslint_config_files = {
 							'.eslintrc',
 							'.eslintrc.js',
@@ -85,6 +87,8 @@ return {
 							on_dir(marker_dir)
 							return
 						end
+
+						-- Default from https://github.com/neovim/nvim-lspconfig/blob/19576de1c1b6d1b5e231ea6ef9cba9a811c322bb/lsp/vtsls.lua#L82 follows
 
 						-- The project root is where the LSP can be started from
 						-- As stated in the documentation above, this LSP supports monorepos and simple projects.
