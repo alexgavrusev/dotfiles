@@ -16,6 +16,8 @@ brew "tree-sitter-cli"
 
 brew "ghostscript"
 
+brew "platformio"
+
 cask "google-chrome"
 
 cask "kitty"
