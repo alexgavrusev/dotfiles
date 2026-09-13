@@ -119,7 +119,9 @@ fi
 # Shell
 #####################################
 
-configure_shell() {
+configure_zsh() {
+    mkdir -p "${ZDOTDIR:h}"
+
     echo "Linking zsh config"
     ln -sf $DOTFILES_DIR/zsh $ZDOTDIR
 
@@ -128,13 +130,19 @@ configure_shell() {
 ZDOTDIR=$ZDOTDIR
 . $ZDOTDIR/.zshenv
 EOF
+}
 
+configure_default_shell() {
     current_shell=$(dscl . -read ~/ UserShell | sed 's/UserShell: //')
     sudo dscl . -change $HOME UserShell $current_shell "$HOMEBREW_PREFIX/bin/zsh"
 }
 
-if ask "Configure shell?" Y; then
-    configure_shell
+if ask "Configure zsh?" Y; then
+    configure_zsh
+fi
+
+if ask "Configure default shell?" Y; then
+    configure_default_shell
 fi
 
 #####################################
@@ -150,6 +158,8 @@ ensure_tpm() {
 }
 
 configure_terminal() {
+    mkdir -p ~/.config
+
     echo "Linking tmux config"
     ln -sf $DOTFILES_DIR/tmux/tmux.conf ~/.tmux.conf 
 

@@ -294,6 +294,12 @@ function setup-git() {
 # tmux
 #
 function setup-tmux() {
+  alias t='tmux'
+
+  alias tl='tmux list-sessions'
+  alias to='tmux new-session -A -s'
+  alias tks='tmux kill-session -t'
+
   [[ -n $TMUX ]] || return
   source "${ZDOTDIR:-$HOME}/modules/tmux/pane-title.zsh"
 }
@@ -314,7 +320,7 @@ function setup-completion() {
   
   # Enable the "new" completion system (compsys).
   local dumpfile=$HOME/.local/share/zsh/.zcompdump
-  autoload -Uz compinit && compinit -d $dumpfile
+  autoload -Uz compinit && compinit -u -d $dumpfile # -u for the remote user, to trust completions in brew
   [[ $dumpfile.zwc -nt $dumpfile ]] || zcompile-many $dumpfile
   
   # User _approximate to allow completions to undergo corrections
@@ -447,7 +453,7 @@ function setup-p10k() {
   source $ZPLUGINDIR/powerlevel10k/powerlevel10k.zsh-theme
   
   # To customize prompt, run `p10k configure` or edit $ZDOTDIR/.p10k.zsh.
-  source $ZDOTDIR/.p10k.zsh
+  source ${ZDOTDIR:-$HOME}/.p10k.zsh
 }
 
 setup-homebrew-completion
