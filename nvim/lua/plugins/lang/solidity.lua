@@ -3,7 +3,12 @@ return {
 		"neovim/nvim-lspconfig",
 		opts = {
 			servers = {
-				solidity_ls = {},
+				-- https://www.getfoundry.sh/config/editors#solidity-language-server
+				forge_lsp = {
+					cmd = { "forge", "lsp" },
+					filetypes = { "solidity" },
+					root_markers = { "foundry.toml" },
+				},
 			},
 		},
 	},
@@ -12,14 +17,6 @@ return {
 		opts = {
 			ensure_installed = {
 				"solidity"
-			}
-		}
-	},
-	{
-		"williamboman/mason.nvim",
-		opts = {
-			ensure_installed = {
-				"vscode-solidity-server"
 			}
 		}
 	},

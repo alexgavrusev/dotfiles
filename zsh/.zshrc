@@ -436,7 +436,7 @@ function setup-python() {
 #
 function setup-solidity() {
   if [[ -e "$HOME/.foundry/bin" ]]; then
-    export PATH="$PATH:/Users/gvrs/.foundry/bin"
+    export PATH="$PATH:$HOME/.foundry/bin"
   fi
 }
 
