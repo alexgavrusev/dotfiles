@@ -106,7 +106,7 @@ return {
 			local dap = require("dap")
 			dap.adapters["pwa-node"] = {
 				type = "server",
-				host = "localhost",
+				host = "127.0.0.1",
 				port = "${port}",
 				executable = {
 					command = "node",
@@ -123,14 +123,13 @@ return {
 			vscode.type_to_filetypes["pwa-node"] = js_filetypes
 
 			local function pick_port()
-				local co = coroutine.running()
-				return coroutine.create(function()
+				return coroutine.create(function(dap_run_co)
 					vim.ui.input({
 						prompt = "Enter debug port: ",
-						default = tostring(9229),
+						default = "9229",
 					}, function(input)
-						local port_num = tonumber(input)
-						coroutine.resume(co, port_num)
+						local port = tonumber(input)
+						coroutine.resume(dap_run_co, port or dap.ABORT)
 					end)
 				end)
 			end
@@ -150,6 +149,7 @@ return {
 							request = "attach",
 							name = "Attach",
 							processId = require("dap.utils").pick_process,
+							address = "127.0.0.1",
 							cwd = "${workspaceFolder}",
 							port = pick_port,
 							restart = true,
