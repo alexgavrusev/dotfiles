@@ -113,6 +113,8 @@ return {
 					args = {
 						vim.fn.expand("$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js"),
 						"${port}",
+						-- may no longer be needed when https://github.com/microsoft/vscode-js-debug/pull/2417 is released
+						"127.0.0.1",
 					},
 				},
 			}
