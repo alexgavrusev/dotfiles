@@ -78,6 +78,17 @@ return {
 			}
 		},
 		init = function()
+			local function lazy_select(...)
+				require("lazy").load({ plugins = { "mini.pick" } })
+
+				if vim.ui.select == lazy_select then
+					error("mini.pick did not replace vim.ui.select")
+				end
+
+				return vim.ui.select(...)
+			end
+
+			vim.ui.select = lazy_select
 		end,
 		opts = {
 			window = {
