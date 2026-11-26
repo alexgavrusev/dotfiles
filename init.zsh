@@ -7,7 +7,6 @@
 export ZDOTDIR=$HOME/.config/zsh
 
 DOTFILES_DIR=`pwd -P`
-UNAME_MACHINE="$(/usr/bin/uname -m)"
 
 # source: https://djm.me/ask
 ask() {
@@ -46,15 +45,6 @@ ask() {
     done
 }
 
-
-#####################################
-# Rosetta (required for some casks)
-#####################################
-
-if  [ $UNAME_MACHINE = "arm64" ] && ask "Install rosetta?" Y; then
-    /usr/sbin/softwareupdate --install-rosetta --agree-to-license  
-fi
-
 #####################################
 # Homebrew
 #####################################
@@ -63,16 +53,7 @@ fi
 shellenv_brew() {
     echo "Running brew shellenv"
 
-    if [[ "${UNAME_MACHINE}" == "arm64" ]]
-    then
-        # ARM macOS
-        HOMEBREW_PREFIX="/opt/homebrew"
-    else
-        # Intel macOS
-        HOMEBREW_PREFIX="/usr/local"
-    fi
-
-    eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv)"    	
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 }
 
 install_homebrew() {
@@ -176,25 +157,12 @@ if ask "Configure the terminal (tmux, kitty, nvim)?" Y; then
 fi
 
 #####################################
-# fnm, required for node
-#####################################
-
-ensure_fnm() {
-    if ! command -v fnm &> /dev/null; then
-       echo "fnm not found, installing"
-       curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.local/share/fnm" --skip-shell
-    fi
-
-    eval "$(fnm env)"
-}
-
-#####################################
 # Node
 #####################################
 
 install_node() {
     # concat to a single array
-    NODE_VERSIONS=("lts-jod" "lts-iron")
+    NODE_VERSIONS=("lts-lithium")
     
     NODE_GLOBAL_PACKAGES=("vercel")
 
@@ -203,11 +171,13 @@ install_node() {
 	    fnm i $version
     done
 
+    fnm default "${NODE_VERSIONS[1]}"
+    fnm use default
+
     npm i -g ${NODE_GLOBAL_PACKAGES[@]}
 }
 
 if ask "Install node and global npm packages?" Y; then
-    ensure_fnm
     install_node
 fi
 
@@ -217,6 +187,7 @@ fi
 #####################################
 
 if ask "Set up macOS defaults?" Y && ask "Does the current terminal have Full Disk Access?" N; then
+    cd $DOTFILES_DIR
     ./defaults.sh
 fi
 

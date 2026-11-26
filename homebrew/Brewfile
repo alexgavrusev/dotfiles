@@ -8,19 +8,20 @@ brew "mas"
 brew "zsh"
 brew "tmux"
 
-brew "asdf"
 brew "git"
 brew "git-lfs"
 brew "neovim"
 brew "tree-sitter-cli"
+
+brew "fnm"
 
 brew "ghostscript"
 
 cask "google-chrome"
 
 cask "kitty"
+
 cask "docker"
-cask "postman"
 
 cask "visual-studio-code"
 
@@ -28,10 +29,7 @@ cask "obsidian"
 
 cask "telegram"
 
-cask "spotify"
-
 cask "shortcat"
-
 cask "mullvadvpn"
 cask "the-unarchiver"
 cask "transmission"
