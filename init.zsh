@@ -111,6 +111,9 @@ configure_zsh() {
 ZDOTDIR=$ZDOTDIR
 . $ZDOTDIR/.zshenv
 EOF
+
+    # Remove "Last login" message for new tabs in terminal
+    touch $HOME/.hushlogin
 }
 
 configure_default_shell() {
@@ -165,6 +168,8 @@ install_node() {
     NODE_VERSIONS=("lts-lithium")
     
     NODE_GLOBAL_PACKAGES=("vercel")
+
+    eval "$(fnm env --use-on-cd --shell zsh)"
 
     for version in "${NODE_VERSIONS[@]}"
     do
